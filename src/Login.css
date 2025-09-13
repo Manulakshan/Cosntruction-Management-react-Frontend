@@ -1,0 +1,229 @@
+/* src/Login.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root, .App {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.login-page {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(180deg, #4d8ab3 0%, #0667bc 100%);
+  min-height: 90vh;
+  width: 100%;
+  color: #1e2a47;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-main {
+  flex: 1;             /* take available vertical space */
+  display: flex;
+  margin: 0;           /* remove margin */
+  gap: 2rem;
+  padding: 2rem;
+  background: linear-gradient(180deg, #57a8dd 0%, #a3bacd 100%);
+  border-radius: 0;    /* remove rounding if you want full-bleed */
+  box-shadow: none;    /* optional */
+  width: 100%;         /* take full width */
+}
+
+.welcome-section {
+  flex: 1;
+  padding-right: 2rem;
+}
+
+.welcome-section h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.welcome-section ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.login-form-section {
+  flex: 1;
+  background-color: #e7f1fa;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 0 10px #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #1e2a47;
+}
+
+.login-form-section form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form-section label {
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+}
+
+.login-form-section input[type="text"],
+.login-form-section input[type="password"] {
+  padding: 0.6rem 1rem;
+  margin-bottom: 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #b0c9e9;
+  background-color: white;  /* Add white background */
+  font-size: 1rem;
+}
+
+.error-message {
+  color: #d9534f;
+  font-size: 0.85rem;
+  margin-top: -0.6rem;
+  margin-bottom: 0.8rem;
+}
+
+.forgot-checkbox {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  
+}
+
+.forgot-checkbox input {
+  margin-right: 0.5rem;
+}
+
+.login-button {
+  background-color: #4a9ed6;
+  border: none;
+  padding: 0.8rem 0;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #357ab8;
+}
+
+.support-text {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #4a90e2;
+}
+
+.support-text a {
+  color: #4a90e2;
+  text-decoration: none;
+}
+
+.support-text a:hover {
+  text-decoration: underline;
+}
+
+.illustration-section {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  flex: 1;
+  padding: 1rem;
+  margin-top: auto;
+}
+
+.illustration {
+  max-width: 300px;
+  width: 100%;
+  height: auto;
+  opacity: 0.9;
+  transition: transform 0.3s ease;
+}
+
+.illustration:hover {
+  transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .login-main {
+    padding: 1.5rem;
+  }
+  
+  .welcome-section h1 {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .login-main {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .welcome-section {
+    padding-right: 0;
+    margin-bottom: 1.5rem;
+  }
+  
+  .illustration-section {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .login-main {
+    padding: 1rem;
+  }
+  
+  .welcome-section h1 {
+    font-size: 2rem;
+  }
+  
+  .login-form-section {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .welcome-section h1 {
+    font-size: 1.8rem;
+  }
+  
+  .welcome-section ul {
+    font-size: 0.9rem;
+  }
+  
+  .login-form-section h2 {
+    font-size: 1.5rem;
+  }
+  
+  .login-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Ensure inputs and buttons are touch-friendly on mobile */
+@media (hover: none) and (pointer: coarse) {
+  input, button {
+    min-height: 44px; /* Minimum touch target size */
+  }
+  
+  .login-button {
+    padding: 0.8rem 1.5rem;
+  }
+}
