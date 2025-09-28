@@ -1,0 +1,86 @@
+.about-page {
+    padding: 60px 80px;
+    background-color: #fff;
+    font-family: Arial, sans-serif;
+  }
+  
+  .about-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 40px;
+  }
+  
+  .about-text {
+    flex: 1;
+    max-width: 600px;
+  }
+  
+  .about-text h1 {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    border-bottom: 3px solid #1d3d70;
+    display: inline-block;
+    padding-bottom: 5px;
+  }
+  
+  .about-text p {
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .about-text h3 {
+    font-size: 20px;
+    margin: 20px 0 10px;
+    font-weight: bold;
+  }
+  
+  .about-text ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+  }
+  
+  .about-text ul li {
+    font-size: 15px;
+    margin: 8px 0;
+    position: relative;
+    padding-left: 20px;
+  }
+  
+  .about-text ul li::before {
+    content: "•";
+    color: #1d3d70;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+  }
+  
+  .about-btn {
+    background-color: #1d3d70;
+    color: #fff;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 4px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+  
+  .about-btn:hover {
+    background-color: #0f274a;
+  }
+  
+  .about-image {
+    flex: 1;
+  }
+  
+  .about-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+  }
+  

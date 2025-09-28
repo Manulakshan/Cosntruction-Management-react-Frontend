@@ -5,6 +5,10 @@ import Navbar from './components/Navbar';
 import Contact from './pages/Contact';
 import logo from './assets/logo.png';
 import Overview from './pages/Overview';
+import Home from './pages/Home';
+import About from './pages/About';
+import Services from './pages/Services';
+import LatestProjects from './pages/LatestProjects';
 // Sample navigation items
 const navItems = [
   { path: '/', label: 'Home' },
@@ -23,11 +27,11 @@ function App() {
         <Navbar logo={logo} navItems={navItems} />
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/" element={<div>Home Page Content</div>} />
-          <Route path="/about" element={<div>About Page</div>} />
-          <Route path="/services" element={<div>Services Page</div>} />
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/services" element={<Services />} />
           <Route path="/overview" element={<Overview />} />
-          <Route path="/latest" element={<div>Latest Project</div>} />
+          <Route path="/latest" element={<LatestProjects />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
       </div>
