@@ -2,8 +2,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './Login';
 import './App.css';
 import Navbar from './components/Navbar';
+import Contact from './pages/Contact';
 import logo from './assets/logo.png';
-
+import Overview from './pages/Overview';
 // Sample navigation items
 const navItems = [
   { path: '/', label: 'Home' },
@@ -25,9 +26,9 @@ function App() {
           <Route path="/" element={<div>Home Page Content</div>} />
           <Route path="/about" element={<div>About Page</div>} />
           <Route path="/services" element={<div>Services Page</div>} />
-          <Route path="/overview" element={<div>Overview</div>} />
+          <Route path="/overview" element={<Overview />} />
           <Route path="/latest" element={<div>Latest Project</div>} />
-          <Route path="/contact" element={<div>Contact Page</div>} />
+          <Route path="/contact" element={<Contact />} />
         </Routes>
       </div>
     </Router>
