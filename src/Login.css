@@ -14,24 +14,25 @@ html, body, #root, .App {
 
 .login-page {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(180deg, #4d8ab3 0%, #0667bc 100%);
-  min-height: 90vh;
+  background-color: white;
+  min-height: 100vh;
   width: 100%;
-  color: #1e2a47;
+  color: #000000;
   display: flex;
   flex-direction: column;
 }
 
 .login-main {
-  flex: 1;             /* take available vertical space */
+  flex: 1 0 auto;             /* take available vertical space */
   display: flex;
   margin: 0;           /* remove margin */
   gap: 2rem;
   padding: 2rem;
-  background: linear-gradient(180deg, #57a8dd 0%, #a3bacd 100%);
+  background: white;
   border-radius: 0;    /* remove rounding if you want full-bleed */
   box-shadow: none;    /* optional */
   width: 100%;         /* take full width */
+  margin-bottom: 2rem;
 }
 
 .welcome-section {
@@ -40,7 +41,11 @@ html, body, #root, .App {
 }
 
 .welcome-section h1 {
-  font-size: 2.5rem;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+.welcome-section h2 {
+  font-size: 0.8rem;
   margin-bottom: 1rem;
 }
 
@@ -53,10 +58,10 @@ html, body, #root, .App {
 
 .login-form-section {
   flex: 1;
-  background-color: #e7f1fa;
+  background-color: #ffffff;
   border-radius: 12px;
   padding: 2rem;
-  box-shadow: 0 0 10px #ffffff;
+  box-shadow: 0 0 10px #b6b0b0;
   display: flex;
   flex-direction: column;
 }
@@ -106,7 +111,8 @@ html, body, #root, .App {
 }
 
 .login-button {
-  background-color: #4a9ed6;
+  background-color: #92240b;
+  color: #ffffff;
   border: none;
   padding: 0.8rem 0;
   border-radius: 8px;
@@ -118,7 +124,7 @@ html, body, #root, .App {
 }
 
 .login-button:hover {
-  background-color: #357ab8;
+  background-color: #92240b;
 }
 
 .support-text {
@@ -156,6 +162,113 @@ html, body, #root, .App {
 .illustration:hover {
   transform: scale(1.05);
 }
+
+/* Construction Banner */
+.construction-banner {
+  width: 100%;
+  max-height: 300px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+  margin-bottom: 2rem;
+}
+
+.construction-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+/* Construction Image Styles */
+.construction-image-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem 2rem;
+  box-sizing: border-box;
+}
+
+.construction-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: block;
+  margin: 0 auto;
+  max-height: 400px;
+  object-fit: cover;
+}
+
+/* Main Footer */
+.site-footer {
+  background-color: #92240b;
+  color: #fff;
+  padding: 2rem 1.5rem 0;
+  width: 100%;
+  margin-top: auto;
+  font-family: Arial, sans-serif;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+/* Each Section */
+.footer-section {
+  flex: 1;
+  min-width: 250px;
+}
+
+.footer-section h4 {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.footer-section p,
+.footer-section a {
+  font-size: 0.9rem;
+  color: #ffffff;
+  line-height: 1.6;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-section a {
+  color: #ffffff;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.footer-section a:hover {
+  color: #f5d08a;
+  text-decoration: underline;
+}
+
+/* Bottom Bar */
+.footer-bottom {
+  text-align: center;
+  padding: 1rem 0;
+  margin-top: 1.5rem;
+  background-color: #7a1d08;
+  font-size: 0.85rem;
+}
+
 
 /* Responsive Design */
 @media (max-width: 1200px) {
@@ -196,6 +309,19 @@ html, body, #root, .App {
   .login-form-section {
     padding: 1.5rem;
   }
+  
+  .login-footer {
+    padding: 1rem;
+  }
+  
+  .footer-links {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .footer-links span {
+    display: none; /* Hide bullet points on mobile */
+  }
 }
 
 @media (max-width: 576px) {
@@ -226,4 +352,39 @@ html, body, #root, .App {
   .login-button {
     padding: 0.8rem 1.5rem;
   }
+}
+
+.welcome-section .highlight {
+  color: #92240b;
+}
+
+.welcome-section ul {
+  list-style: none; /* remove default bullets */
+  padding: 0;
+}
+
+.welcome-section li {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.welcome-section li i {
+  color: #92240b;
+  margin-right: 0.6rem;
+  font-size: 1.2rem;
+}
+
+.welcome-section li {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.welcome-section .icon {
+  color: #92240b;
+  font-size: 1.3rem;
+  margin-right: 0.6rem; /* 👈 space between icon & text */
 }

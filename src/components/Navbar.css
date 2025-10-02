@@ -1,6 +1,6 @@
 /* Navbar.css */
 .navbar-header {
-  background-color: #2e4a7d;
+  background-color: #ffffff;
   width: 100%;
   position: relative;
   z-index: 1000;
@@ -35,7 +35,7 @@
 }
 
 .navbar-nav a {
-  color: white;
+  color: rgb(0, 0, 0);
   text-decoration: none;
   font-weight: 500;
   font-size: 0.95rem;
@@ -46,12 +46,13 @@
 }
 
 .navbar-nav a:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #92240b;
 }
 
 /* Active link style */
 .navbar-nav a.active {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: #92240b;
+  color: white;
 }
 
 /* Responsive Design */

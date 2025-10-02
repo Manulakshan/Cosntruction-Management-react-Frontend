@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './Login';
 import './App.css';
 import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import Login from './Login';
 import logo from './assets/logo.png';
 
 // Sample navigation items
@@ -21,8 +22,8 @@ function App() {
       <div className="App">
         <Navbar logo={logo} navItems={navItems} />
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/" element={<div>Home Page Content</div>} />
           <Route path="/about" element={<div>About Page</div>} />
           <Route path="/services" element={<div>Services Page</div>} />
           <Route path="/overview" element={<div>Overview</div>} />
