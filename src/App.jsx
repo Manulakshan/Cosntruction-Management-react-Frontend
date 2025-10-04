@@ -7,6 +7,11 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Services from './pages/Services';
 import LatestProjects from './pages/LatestProjects';
+import Login from './Login';
+import Contact from './pages/Contact';
+
+
+
 // Sample navigation items
 const navItems = [
   { path: '/', label: 'Home' },
@@ -26,12 +31,12 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/" element={<div>Home Page Content</div>} />
-          <Route path="/about" element={<div>About Page</div>} />
-          <Route path="/services" element={<div>Services Page</div>} />
-          <Route path="/overview" element={<div>Overview</div>} />
-          <Route path="/latest" element={<div>Latest Project</div>} />
-          <Route path="/contact" element={<div>Contact Page</div>} />
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About/>} />
+          <Route path="/services" element={<Services/>} />
+          <Route path="/overview" element={<Overview />} />
+          <Route path="/latest" element={<LatestProjects/>} />
+          <Route path="/contact" element={<Contact/>} />
         </Routes>
       </div>
     </Router>
