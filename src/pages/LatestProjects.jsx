@@ -60,7 +60,7 @@ const LatestProjects = () => {
         { label: 'Stores', value: '120' },
         { label: 'Ongoing', value: '2023' },
       ],
-      image: 'https://images.unsplash.com/photo-1529429611273-4e8e94cf9f92?auto=format&fit=crop&w=1350&q=80',
+      image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1350&q=80',
       status: 'Ongoing',
       category: 'Commercial',
     },

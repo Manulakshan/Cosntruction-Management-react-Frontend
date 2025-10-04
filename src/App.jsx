@@ -13,6 +13,9 @@ import Dashboard from './pages/admin/Dashboard';
 import SiteManagement from './pages/admin/SiteManagement';
 import SupervisorsTable from './pages/admin/Supervisorstable';
 import SupervisorRegistration from './pages/admin/SupervisorRegistration';
+import WorkforceManagement from './pages/admin/WorkforceManagement';
+import MaterialManagement from './pages/admin/MaterialManagement';
+import ProjectReport from './pages/admin/ProjectReport';
 
 
 // Layout component for public routes (with Navbar)
@@ -55,7 +58,9 @@ function App() {
           <Route path="/admin/sitemanagement" element={<SiteManagement />} />
           <Route path="/admin/supervisors" element={<SupervisorsTable />} />
           <Route path="/admin/supervisor/registration" element={<SupervisorRegistration />} />
-
+          <Route path="/admin/workforce" element={<WorkforceManagement />} />
+          <Route path="/admin/materials" element={<MaterialManagement />} />
+          <Route path="/admin/project-reports" element={<ProjectReport />} />
 
           
           {/* 404 Route */}

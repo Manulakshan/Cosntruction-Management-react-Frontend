@@ -20,16 +20,19 @@ const Footer = () => {
           <h4>Quick Links</h4>
           <ul>
             <li>
-              <a href="#">Home</a>
+              <a href="/" onClick={(e) => { e.preventDefault(); window.location.href = '/'; }}>Home</a>
             </li>
             <li>
-              <a href="#">About</a>
+              <a href="/about" onClick={(e) => { e.preventDefault(); window.location.href = '/about'; }}>About</a>
             </li>
             <li>
-              <a href="#">Services</a>
+              <a href="/services" onClick={(e) => { e.preventDefault(); window.location.href = '/services'; }}>Services</a>
             </li>
             <li>
-              <a href="#">Contact</a>
+              <a href="/latest" onClick={(e) => { e.preventDefault(); window.location.href = '/latest'; }}>Projects</a>
+            </li>
+            <li>
+              <a href="/contact" onClick={(e) => { e.preventDefault(); window.location.href = '/contact'; }}>Contact</a>
             </li>
           </ul>
         </div>

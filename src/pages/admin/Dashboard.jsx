@@ -1,20 +1,24 @@
-// In Dashboard.jsx
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Sidebar from '../../components/Admin/Sidebar';
-import './Dashboard.css';
-import { FaUsers, FaMapMarkerAlt, FaLayerGroup, FaClipboardList } from 'react-icons/fa';
-
+// src/pages/Admin/Dashboard.jsx
+import React from "react";
+import Sidebar from "../../components/Admin/Sidebar";
+import "./Dashboard.css";
+import {
+  FaUsers,
+  FaMapMarkerAlt,
+  FaLayerGroup,
+  FaClipboardList,
+} from "react-icons/fa";
 
 const Dashboard = () => {
-  // ... (keep all the existing data and state)
-
   return (
     <div className="dashboard">
       <Sidebar />
+
       {/* Header */}
       <header className="dashboard-header">
-        <h2>SOLIDCORE <span>Admin Dashboard</span></h2>
+        <h2>
+          SOLIDCORE <span>Admin Dashboard</span>
+        </h2>
         <div className="admin-info">
           <div>
             <h4>Admin Name</h4>
@@ -31,8 +35,8 @@ const Dashboard = () => {
           <p>Here's what's happening with your projects today.</p>
         </div>
         <div className="welcome-actions">
-          <button className="btn-primary">🏠 View Home</button>
-          <button className="btn-primary">+ Add New Project</button>
+          <button className="btn-outline">🏠 View Home</button>
+          <button className="btn-solid">+ Add New Project</button>
         </div>
       </section>
 
@@ -67,12 +71,16 @@ const Dashboard = () => {
           <a href="#">View All</a>
         </div>
         <div className="activity">
-          <p><b>New Supervisor Registered</b></p>
+          <p>
+            <b>New Supervisor Registered</b>
+          </p>
           <p>Kamal Perera has been added as a new supervisor</p>
           <span>2 hours ago</span>
         </div>
         <div className="activity">
-          <p><b>New Site Created</b></p>
+          <p>
+            <b>New Site Created</b>
+          </p>
           <p>A new project site has been successfully established</p>
           <span>Just now</span>
         </div>
