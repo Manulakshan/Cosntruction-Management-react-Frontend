@@ -4,6 +4,15 @@
   color: #333;
 }
 
+.overlay h1{
+    color: #fff;
+
+}
+.overlay p{
+    color: #fff;
+
+}
+
 /* Hero Section */
 .projects-hero {
   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),

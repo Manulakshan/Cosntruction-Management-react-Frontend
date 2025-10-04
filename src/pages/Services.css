@@ -2,6 +2,8 @@
 .services-page {
   font-family: 'Arial', sans-serif;
   color: #333;
+    background: white;
+
 }
 
 /* Hero Section */
@@ -95,6 +97,11 @@
   transition: all 0.3s ease;
   text-align: center;
   border: 1px solid #eee;
+}
+
+.services-grid-section{
+background: white;
+
 }
 
 .service-card:hover {
