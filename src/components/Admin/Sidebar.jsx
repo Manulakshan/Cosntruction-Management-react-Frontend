@@ -7,9 +7,9 @@ const Sidebar = () => {
   
   const menuItems = [
     {  text: 'Dashboard', path: '/admin/dashboard' },
-    {  text: 'Site Management', path: '/admin/users' },
-    {  text: 'Profile Management', path: '/admin/posts' },
-    {  text: 'Supervisor Registration', path: '/admin/categories' },
+    {  text: 'Site Management', path: '/admin/sitemanagement' },
+    {  text: 'Profile Management', path: '/admin/supervisors' },
+    {  text: 'Supervisor Registration', path: '/admin/supervisor/registration' },
     {  text: 'Workforce Management', path: '/admin/analytics' },
     {  text: 'Material Management', path: '/admin/settings' },
     {  text: 'Project Reports', path: '/admin/settings' },

@@ -10,6 +10,10 @@ import LatestProjects from './pages/LatestProjects';
 import Login from './Login';
 import Contact from './pages/Contact';
 import Dashboard from './pages/admin/Dashboard';
+import SiteManagement from './pages/admin/SiteManagement';
+import SupervisorsTable from './pages/admin/Supervisorstable';
+import SupervisorRegistration from './pages/admin/SupervisorRegistration';
+
 
 // Layout component for public routes (with Navbar)
 const PublicLayout = () => (
@@ -48,6 +52,11 @@ function App() {
 
           {/* Admin Routes without Navbar */}
           <Route path="/admin/*" element={<Dashboard />} />
+          <Route path="/admin/sitemanagement" element={<SiteManagement />} />
+          <Route path="/admin/supervisors" element={<SupervisorsTable />} />
+          <Route path="/admin/supervisor/registration" element={<SupervisorRegistration />} />
+
+
           
           {/* 404 Route */}
           <Route path="*" element={<Navigate to="/" replace />} />
