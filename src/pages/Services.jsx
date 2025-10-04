@@ -2,6 +2,8 @@ import React from 'react';
 import { FaHome, FaBuilding, FaHammer, FaTruck, FaTools, FaHardHat } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import './Services.css';
+import servicesBanner from '../assets/construction2.jpg';
+import Footer from '../components/Footer';
 
 const Services = () => {
   const services = [
@@ -40,10 +42,12 @@ const Services = () => {
   return (
     <div className="services-page">
       {/* Hero Section */}
-      <section className="services-hero">
-        <div className="container">
+      <section className="services-hero" style={{ backgroundImage: `url(${servicesBanner})` }}>
+        <div className="services-hero-overlay">
           <h1>Our Services</h1>
-          <p>Comprehensive construction solutions for residential and commercial projects</p>
+          <p>
+            Home <span className="breadcrumb-arrow">›</span> Services
+          </p>
         </div>
       </section>
 
@@ -80,6 +84,9 @@ const Services = () => {
           <Link to="/contact" className="cta-button">Get a Free Quote</Link>
         </div>
       </section>
+      
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };
