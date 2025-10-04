@@ -1,0 +1,209 @@
+/* Main Container */
+.registration-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background: #f8fafc;
+  min-height: 100vh;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  margin-left: 250px; /* Sidebar width */
+}
+
+/* Form Container */
+.registration-form {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Typography */
+.form-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.form-subtitle {
+  text-align: center;
+  color: #64748b;
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+}
+
+/* Form Elements */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  font-weight: 500;
+  color: #334155;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  background-color: #f8fafc;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #92240b;
+  box-shadow: 0 0 0 3px rgba(146, 36, 11, 0.1);
+  background-color: white;
+}
+
+.form-hint {
+  display: block;
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-top: 0.25rem;
+  font-style: italic;
+}
+
+/* Password Validation */
+.validation-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin: 0.75rem 0;
+  background: #f8fafc;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.validation-item {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.validation-icon {
+  margin-right: 0.5rem;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.validation-icon.valid {
+  color: #10b981;
+}
+
+.validation-icon.invalid {
+  color: #ef4444;
+}
+
+/* Button */
+.submit-button {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  background: #92240b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.submit-button:hover {
+  background: #7a1f0a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(146, 36, 11, 0.15);
+}
+
+.submit-button:active {
+  transform: translateY(0);
+}
+
+/* Guidelines Card */
+.guidelines-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.75rem;
+  margin-top: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  max-width: 600px;
+  width: 100%;
+}
+
+.guidelines-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.guideline-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  padding: 0.5rem 0;
+}
+
+.guideline-item svg {
+  color: #92240b;
+  margin-right: 0.75rem;
+  margin-top: 0.25rem;
+  flex-shrink: 0;
+}
+
+/* Info Alert */
+.info-alert {
+  display: flex;
+  align-items: flex-start;
+  background: #fffbeb;
+  color: #92400e;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+  border: 1px solid #fde68a;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.info-alert svg {
+  color: #d97706;
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .registration-container {
+    margin-left: 0;
+    padding: 1.5rem;
+  }
+  
+  .registration-form,
+  .guidelines-card {
+    padding: 1.5rem;
+  }
+  
+  .validation-grid {
+    grid-template-columns: 1fr;
+  }
+}

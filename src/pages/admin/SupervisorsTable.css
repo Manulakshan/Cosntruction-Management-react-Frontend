@@ -1,0 +1,120 @@
+.supervisors-section {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f8f9fc;
+  margin-left: 250px; /* Match sidebar width */
+  width: calc(100% - 250px);
+  flex-direction: column;
+
+}
+
+.section-title {
+  background: #92240b;
+  color: white;
+  padding: 18px;
+  /* border-radius: 8px 8px 0 0; */
+}
+
+.table-actions {
+  display: flex;
+  justify-content: flex-end; /* pushes the button to the right */
+  align-items: center;
+  margin: 15px 0;
+}
+
+.btn-add {
+  background: #92240b;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+
+
+.table-wrapper {
+  border: 1px solid #eee;
+  border-radius: 50px;
+  overflow: hidden;
+  background: white;
+  margin-left: 20px; /* pushes table away from sidebar */
+  margin-right: 20px; /* optional, for spacing on the right */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #f8f8f8;
+  text-align: left;
+}
+
+th, td {
+  padding: 14px;
+  border-bottom: 1px solid #eee;
+}
+
+.status {
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+}
+
+.status.active {
+  background: #1e7d4c;
+  color: white;
+}
+
+.status.inactive {
+  background: #e5e5e5;
+  color: #555;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-icon {
+  border: none;
+  padding: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+}
+
+.btn-icon.view { background: #92240b; }
+.btn-icon.edit { background: #92240b; }
+.btn-icon.delete { background: #92240b; }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 15px;
+}
+
+.pagination button {
+  border: 1px solid #92240b;
+  background: rgb(221, 97, 97);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pagination button.active {
+  background: #92240b;
+  color: white;
+  border: none;
+}
+
+.summary {
+  margin-top: 10px;
+  margin-left: 10px;
+  font-size: 13px;
+  color: #555;
+}
