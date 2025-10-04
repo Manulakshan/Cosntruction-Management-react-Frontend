@@ -10,13 +10,16 @@ const AdminLayout = () => {
       <main className="admin-content">
         <header className="admin-header">
           <div className="header-left">
-            <h1>Dashboard</h1>
+            <h1>SolidCore Admin Dashboard</h1>
+          </div>
+          <div className="header-left">
+            <h1>SolidCore Admin Dashboard</h1>
           </div>
           <div className="header-right">
-            <div className="admin-search">
+            {/* <div className="admin-search">
               <input type="text" placeholder="Search..." />
               <span className="search-icon">🔍</span>
-            </div>
+            </div> */}
             <div className="admin-profile">
               <span className="notification-badge">3</span>
               <div className="profile-avatar">

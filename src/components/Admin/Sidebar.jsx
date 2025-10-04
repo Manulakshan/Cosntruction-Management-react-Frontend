@@ -6,18 +6,21 @@ const Sidebar = () => {
   const location = useLocation();
   
   const menuItems = [
-    { icon: '📊', text: 'Dashboard', path: '/admin/dashboard' },
-    { icon: '👥', text: 'Users', path: '/admin/users' },
-    { icon: '📝', text: 'Posts', path: '/admin/posts' },
-    { icon: '📂', text: 'Categories', path: '/admin/categories' },
-    { icon: '📊', text: 'Analytics', path: '/admin/analytics' },
-    { icon: '⚙️', text: 'Settings', path: '/admin/settings' },
+    {  text: 'Dashboard', path: '/admin/dashboard' },
+    {  text: 'Site Management', path: '/admin/users' },
+    {  text: 'Profile Management', path: '/admin/posts' },
+    {  text: 'Supervisor Registration', path: '/admin/categories' },
+    {  text: 'Workforce Management', path: '/admin/analytics' },
+    {  text: 'Material Management', path: '/admin/settings' },
+    {  text: 'Project Reports', path: '/admin/settings' },
+    {  text: 'Financial Reports', path: '/admin/settings' },
+
   ];
 
   return (
     <div className="sidebar">
       <div className="sidebar-header">
-        <h2>Admin Panel</h2>
+        <h2>SOLIDCORE</h2>
       </div>
       <div className="sidebar-menu">
         {menuItems.map((item, index) => (
