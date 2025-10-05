@@ -8,6 +8,7 @@
   color: white;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;         
   padding: 25px 0;
 }
 
@@ -17,6 +18,10 @@
   font-weight: 700;
   letter-spacing: 1px;
   margin-bottom: 40px;
+  color: white;
+}
+
+.sidebar-header  h2{
   color: white;
 }
 
@@ -79,4 +84,17 @@
 
 .menu-text {
   font-size: 0.9rem;
+}
+
+.menu-group {
+  margin-bottom: 20px;
+}
+
+.menu-group-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  padding: 8px 15px;
+  letter-spacing: 1px;
 }
