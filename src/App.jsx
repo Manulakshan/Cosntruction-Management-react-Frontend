@@ -18,6 +18,9 @@ import WorkforceManagement from './pages/admin/WorkforceManagement';
 import MaterialManagement from './pages/admin/MaterialManagement';
 import ProjectReport from './pages/admin/ProjectReport';
 
+// Supervisor Components
+import SupervisorDashboard from './pages/supervisor/Dashboard';
+import SupervisorHome from './pages/supervisor/Home';
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -84,6 +87,12 @@ function App() {
           <Route path="/admin/materials" element={<MaterialManagement />} />
           <Route path="/admin/project-reports" element={<ProjectReport />} />
 
+          {/* Supervisor Routes */}
+          <Route path="/supervisor" element={<SupervisorDashboard />}>
+            <Route index element={<SupervisorHome />} />
+            <Route path="dashboard" element={<SupervisorHome />} />
+            {/* Add more supervisor routes here as needed */}
+          </Route>
 
           {/* 404 Route */}
           <Route path="*" element={<Navigate to="/" replace />} />

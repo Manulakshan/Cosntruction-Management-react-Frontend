@@ -14,14 +14,24 @@ function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (username !== "admin" || password !== "password") {
-      setError("Incorrect Username or password!");
-    } else {
+    
+    // Admin login
+    if (username === "admin" && password === "admin123") {
       setError("");
-      // Store auth status in localStorage for persistence
       localStorage.setItem('isAuthenticated', 'true');
-      // Redirect to admin dashboard
+      localStorage.setItem('userRole', 'admin');
       navigate('/admin/dashboard');
+    } 
+    // Supervisor login
+    else if (username === "supervisor" && password === "super123") {
+      setError("");
+      localStorage.setItem('isAuthenticated', 'true');
+      localStorage.setItem('userRole', 'supervisor');
+      navigate('/supervisor/dashboard');
+    } 
+    // Invalid credentials
+    else {
+      setError("Incorrect username or password!");
     }
   };
 
