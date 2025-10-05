@@ -149,6 +149,10 @@ function SupervisorRegistration() {
           value={formData.username}
           onChange={handleChange}
           className="form-input"
+          autoComplete="new-username"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck="false"
         />
         <small className="form-hint">Must be 5–20 characters long</small>
 
@@ -160,6 +164,10 @@ function SupervisorRegistration() {
           value={formData.password}
           onChange={handlePasswordChange}
           className="form-input"
+          autoComplete="new-password"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck="false"
         />
 
         <div className="validation-grid">
