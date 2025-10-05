@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
 import logo from './assets/logo.png';
@@ -18,6 +19,27 @@ import MaterialManagement from './pages/admin/MaterialManagement';
 import ProjectReport from './pages/admin/ProjectReport';
 
 
+// Protected Route component
+const ProtectedRoute = ({ children }) => {
+  const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+  const location = useLocation();
+
+  if (!isAuthenticated) {
+    // Redirect to login page with the return URL
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return children;
+};
+
+// Admin Layout with Navbar
+const AdminLayout = () => (
+  <>
+    <Navbar logo={logo} navItems={adminNavItems} isAdmin={true} />
+    <Outlet />
+  </>
+);
+
 // Layout component for public routes (with Navbar)
 const PublicLayout = () => (
   <>
@@ -26,7 +48,7 @@ const PublicLayout = () => (
   </>
 );
 
-// Sample navigation items
+// Navigation items for public users
 const navItems = [
   { path: '/', label: 'Home' },
   { path: '/about', label: 'About' },
@@ -62,7 +84,7 @@ function App() {
           <Route path="/admin/materials" element={<MaterialManagement />} />
           <Route path="/admin/project-reports" element={<ProjectReport />} />
 
-          
+
           {/* 404 Route */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

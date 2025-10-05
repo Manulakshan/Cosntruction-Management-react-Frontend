@@ -1,5 +1,6 @@
 // src/pages/Admin/Dashboard.jsx
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Sidebar from "../../components/Admin/Sidebar";
 import "./Dashboard.css";
 import {
@@ -7,9 +8,33 @@ import {
   FaMapMarkerAlt,
   FaLayerGroup,
   FaClipboardList,
+  FaSignOutAlt,
+  FaChevronDown,
 } from "react-icons/fa";
 
 const Dashboard = () => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  const navigate = useNavigate();
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    // Add any logout logic here (e.g., clear tokens, etc.)
+    navigate('/login');
+  };
   return (
     <div className="dashboard">
       <Sidebar />
@@ -24,7 +49,23 @@ const Dashboard = () => {
             <h4>Admin Name</h4>
             <p>Administrator</p>
           </div>
-          <div className="admin-avatar">AN</div>
+          <div className="admin-avatar-container" ref={dropdownRef}>
+            <div 
+              className="admin-avatar" 
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            >
+              AN
+              <FaChevronDown className="dropdown-arrow" />
+            </div>
+            {isDropdownOpen && (
+              <div className="dropdown-menu">
+                <div className="dropdown-item" onClick={handleLogout}>
+                  <FaSignOutAlt className="dropdown-icon" />
+                  <span>Logout</span>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </header>
 

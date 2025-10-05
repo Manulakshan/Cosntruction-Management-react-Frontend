@@ -38,9 +38,14 @@
   gap: 15px;
 }
 
+.admin-avatar-container {
+  position: relative;
+  cursor: pointer;
+}
+
 .admin-avatar {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   background: #7a1b0c;
   color: white;
@@ -48,6 +53,68 @@
   align-items: center;
   justify-content: center;
   font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+  padding-right: 15px;
+}
+
+.admin-avatar:hover {
+  background: #5a1309;
+}
+
+.dropdown-arrow {
+  position: absolute;
+  right: 8px;
+  font-size: 10px;
+  transition: transform 0.3s ease;
+}
+
+.admin-avatar-container:hover .dropdown-arrow {
+  transform: translateY(1px);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 180px;
+  overflow: hidden;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  color: #4a5568;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background: #f7fafc;
+  color: #2d3748;
+}
+
+.dropdown-icon {
+  margin-right: 10px;
+  color: #718096;
+  width: 16px;
+  text-align: center;
+}
+
+.dropdown-item:hover .dropdown-icon {
+  color: #2d3748;
 }
 
 /* Welcome Card */

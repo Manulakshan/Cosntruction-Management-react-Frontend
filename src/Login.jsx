@@ -1,6 +1,6 @@
 // src/Login.jsx
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import constructionImage from "./assets/construction.jpg";
 import { FaUsers, FaChartLine, FaFolderOpen } from "react-icons/fa";
@@ -10,6 +10,7 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -17,7 +18,10 @@ function Login() {
       setError("Incorrect Username or password!");
     } else {
       setError("");
-      alert("Logged in successfully!");
+      // Store auth status in localStorage for persistence
+      localStorage.setItem('isAuthenticated', 'true');
+      // Redirect to admin dashboard
+      navigate('/admin/dashboard');
     }
   };
 
