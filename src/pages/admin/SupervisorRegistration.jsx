@@ -1,9 +1,7 @@
-// SupervisorRegistration.jsx
 import React from "react";
-import { CheckCircle, XCircle, AlertCircle, Mail, Lock, User,  } from "lucide-react";
+import { CheckCircle, XCircle, AlertCircle, Mail, Lock, User } from "lucide-react";
 import "./SupervisorRegistration.css";
-import Sidebar from '../../components/Admin/Sidebar';
-
+import Sidebar from "../../components/Admin/Sidebar";
 
 function SupervisorRegistration() {
   const [formData, setFormData] = React.useState({
@@ -11,7 +9,7 @@ function SupervisorRegistration() {
     username: "",
     password: "",
     confirmPassword: "",
-    recoveryEmail: ""
+    recoveryEmail: "",
   });
 
   const [passwordValidation, setPasswordValidation] = React.useState({
@@ -19,7 +17,7 @@ function SupervisorRegistration() {
     uppercase: false,
     lowercase: false,
     number: false,
-    special: false
+    special: false,
   });
 
   const handleChange = (e) => {
@@ -40,10 +38,57 @@ function SupervisorRegistration() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Account Created Successfully!");
-    console.log("Form submitted:", formData);
+
+    if (
+      !formData.supervisorId ||
+      !formData.username ||
+      !formData.password ||
+      !formData.confirmPassword ||
+      !formData.recoveryEmail
+    ) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match.");
+      return;
+    }
+
+    const payload = {
+      supervisorId: formData.supervisorId,
+      username: formData.username,
+      password: formData.password,
+      recoveryEmail: formData.recoveryEmail,
+    };
+
+    try {
+      const res = await fetch("http://localhost:3000/api/supRegister", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        alert("Account Created Successfully!");
+        setFormData({
+          supervisorId: "",
+          username: "",
+          password: "",
+          confirmPassword: "",
+          recoveryEmail: "",
+        });
+      } else {
+        alert(data.error || "Registration failed");
+      }
+    } catch (err) {
+      alert("Network error: " + err.message);
+    }
   };
 
   const ValidationItem = ({ isValid, text }) => (
@@ -64,7 +109,6 @@ function SupervisorRegistration() {
       <p className="form-subtitle">Fill in the details to create a new supervisor account.</p>
 
       <form onSubmit={handleSubmit} className="registration-form">
-        {/* Supervisor ID */}
         <label className="form-label">Supervisor ID *</label>
         <input
           type="text"
@@ -76,7 +120,6 @@ function SupervisorRegistration() {
         />
         <small className="form-hint">Use format SP-XXX where XXX is 3 digits</small>
 
-        {/* Username */}
         <label className="form-label">Username *</label>
         <input
           type="text"
@@ -88,7 +131,6 @@ function SupervisorRegistration() {
         />
         <small className="form-hint">Must be 5–20 characters long</small>
 
-        {/* Password */}
         <label className="form-label">Password *</label>
         <input
           type="password"
@@ -107,7 +149,6 @@ function SupervisorRegistration() {
           <ValidationItem isValid={passwordValidation.special} text="One special character (@, $, !, etc.)" />
         </div>
 
-        {/* Confirm Password */}
         <label className="form-label">Confirm Password *</label>
         <input
           type="password"
@@ -118,7 +159,6 @@ function SupervisorRegistration() {
           className="form-input"
         />
 
-        {/* Recovery Email */}
         <label className="form-label">Recovery Email *</label>
         <input
           type="email"
@@ -129,13 +169,11 @@ function SupervisorRegistration() {
           className="form-input"
         />
 
-        {/* Submit */}
         <button type="submit" className="submit-button">
           Create Account
         </button>
       </form>
 
-      {/* Guidelines */}
       <div className="guidelines-card">
         <h2 className="guidelines-title">Registration Guidelines</h2>
         <div className="guideline-item">
@@ -144,9 +182,7 @@ function SupervisorRegistration() {
         </div>
         <div className="guideline-item">
           <Lock className="icon" />
-          <p>
-            Password must contain: 8+ chars, uppercase, lowercase, number, special character
-          </p>
+          <p>Password must contain: 8+ chars, uppercase, lowercase, number, special character</p>
         </div>
         <div className="guideline-item">
           <Mail className="icon" />
