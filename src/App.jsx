@@ -12,7 +12,7 @@ import Login from './Login';
 import Contact from './pages/Contact';
 import Dashboard from './pages/admin/Dashboard';
 import SiteManagement from './pages/admin/SiteManagement';
-import SupervisorsTable from './pages/admin/Supervisorstable';
+// import SupervisorsTable from './pages/admin/Supervisorstable';
 import SupervisorRegistration from './pages/admin/SupervisorRegistration';
 import WorkforceManagement from './pages/admin/WorkforceManagement';
 import MaterialManagement from './pages/admin/MaterialManagement';
@@ -81,7 +81,7 @@ function App() {
           {/* Admin Routes without Navbar */}
           <Route path="/admin/*" element={<Dashboard />} />
           <Route path="/admin/sitemanagement" element={<SiteManagement />} />
-          <Route path="/admin/supervisors" element={<SupervisorsTable />} />
+          {/* <Route path="/admin/supervisors" element={<SupervisorsTable />} /> */}
           <Route path="/admin/supervisor/registration" element={<SupervisorRegistration />} />
           <Route path="/admin/workforce" element={<WorkforceManagement />} />
           <Route path="/admin/materials" element={<MaterialManagement />} />
