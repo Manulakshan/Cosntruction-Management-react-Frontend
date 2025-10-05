@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./SupervisorsTable.css";
-import { FaEye, FaEdit, FaTrash, FaSpinner, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FaEye, FaEdit, FaTrash, FaSpinner, FaChevronLeft, FaChevronRight, FaTimes } from "react-icons/fa";
 import Sidebar from "../../components/Admin/Sidebar";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -14,6 +14,14 @@ const SupervisorsTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
   const [isDeleting, setIsDeleting] = useState(false);
+  const [editingSupervisor, setEditingSupervisor] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState({
+    username: '',
+    supervisorName: '',
+    recoveryEmail: '',
+    isActive: true
+  });
 
   useEffect(() => {
     const fetchSupervisors = async () => {
@@ -80,6 +88,59 @@ const SupervisorsTable = () => {
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  // Handle edit button click
+  const handleEditClick = (supervisor) => {
+    setEditingSupervisor(supervisor);
+    setFormData({
+      username: supervisor.username || '',
+      supervisorName: supervisor.supervisorName || '',
+      recoveryEmail: supervisor.recoveryEmail || '',
+      isActive: supervisor.isActive !== undefined ? supervisor.isActive : true
+    });
+    setIsEditing(true);
+  };
+
+  // Handle form input changes
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!editingSupervisor) return;
+
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const response = await axios.put(
+        `${apiUrl}/api/supRegister/supervisors/${editingSupervisor._id}`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
+      if (response.status === 200) {
+        // Update the supervisors list with the updated data
+        setSupervisors(supervisors.map(sup => 
+          sup._id === editingSupervisor._id ? { ...sup, ...formData } : sup
+        ));
+        toast.success('Supervisor updated successfully');
+        setIsEditing(false);
+        setEditingSupervisor(null);
+      }
+    } catch (err) {
+      console.error('Error updating supervisor:', err);
+      toast.error('Failed to update supervisor. Please try again.');
+    }
+  };
+
   // Handle delete supervisor
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this supervisor? This action cannot be undone.')) {
@@ -125,6 +186,77 @@ const SupervisorsTable = () => {
         </Link>
       </div>
 
+      {/* Edit Supervisor Modal */}
+      {isEditing && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h3>Edit Supervisor</h3>
+              <button 
+                className="close-button" 
+                onClick={() => {
+                  setIsEditing(false);
+                  setEditingSupervisor(null);
+                }}
+              >
+                <FaTimes />
+              </button>
+            </div>
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label>Username</label>
+                <input
+                  type="text"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Full Name</label>
+                <input
+                  type="text"
+                  name="supervisorName"
+                  value={formData.supervisorName}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Email</label>
+                <input
+                  type="email"
+                  name="recoveryEmail"
+                  value={formData.recoveryEmail}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              {/* <div className="form-group checkbox-group">
+                <label>
+                  <input
+                    type="checkbox"
+                    name="isActive"
+                    checked={formData.isActive}
+                    onChange={handleInputChange}
+                  />
+                  Active
+                </label>
+              </div> */}
+              <div className="form-actions">
+                <button type="button" className="btn-cancel" onClick={() => setIsEditing(false)}>
+                  Cancel
+                </button>
+                <button type="submit" className="btn-save">
+                  Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       {loading ? (
         <div className="loading-container">
           <FaSpinner className="spinner" />
@@ -167,7 +299,11 @@ const SupervisorsTable = () => {
                       <button className="btn-icon view" title="View Details">
                         <FaEye />
                       </button>
-                      <button className="btn-icon edit" title="Edit">
+                      <button 
+                        className="btn-icon edit" 
+                        title="Edit"
+                        onClick={() => handleEditClick(sup)}
+                      >
                         <FaEdit />
                       </button>
                       <button 
