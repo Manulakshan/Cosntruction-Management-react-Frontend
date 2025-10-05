@@ -6,6 +6,7 @@ import Sidebar from "../../components/Admin/Sidebar";
 function SupervisorRegistration() {
   const [formData, setFormData] = React.useState({
     supervisorId: "",
+    supervisorName: "",
     username: "",
     password: "",
     confirmPassword: "",
@@ -43,6 +44,7 @@ function SupervisorRegistration() {
 
     if (
       !formData.supervisorId ||
+      !formData.supervisorName ||
       !formData.username ||
       !formData.password ||
       !formData.confirmPassword ||
@@ -59,6 +61,7 @@ function SupervisorRegistration() {
 
     const payload = {
       supervisorId: formData.supervisorId,
+      supervisorName: formData.supervisorName,
       username: formData.username,
       password: formData.password,
       recoveryEmail: formData.recoveryEmail,
@@ -79,6 +82,7 @@ function SupervisorRegistration() {
         alert("Account Created Successfully!");
         setFormData({
           supervisorId: "",
+          supervisorName: "",
           username: "",
           password: "",
           confirmPassword: "",
@@ -110,16 +114,32 @@ function SupervisorRegistration() {
       <p className="form-subtitle">Fill in the details to create a new supervisor account.</p>
 
       <form onSubmit={handleSubmit} className="registration-form">
-        <label className="form-label">Supervisor ID *</label>
-        <input
-          type="text"
-          name="supervisorId"
-          placeholder="Enter unique supervisor ID"
-          value={formData.supervisorId}
-          onChange={handleChange}
-          className="form-input"
-        />
-        <small className="form-hint">Use format SP-XXX where XXX is 3 digits</small>
+        <div className="form-row">
+          <div className="form-group">
+            <label className="form-label">Supervisor ID *</label>
+            <input
+              type="text"
+              name="supervisorId"
+              placeholder="SP-001"
+              value={formData.supervisorId}
+              onChange={handleChange}
+              className="form-input"
+            />
+            <small className="form-hint">Format: SP-XXX (3 digits)</small>
+          </div>
+          
+          <div className="form-group">
+            <label className="form-label">Full Name *</label>
+            <input
+              type="text"
+              name="supervisorName"
+              placeholder="Enter supervisor's full name"
+              value={formData.supervisorName}
+              onChange={handleChange}
+              className="form-input"
+            />
+          </div>
+        </div>
 
         <label className="form-label">Username *</label>
         <input
