@@ -143,15 +143,25 @@ const SiteManagement = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const validateSiteIdFormat = (siteId) => {
+    const siteIdRegex = /^SITE-\d{3}$/;
+    return siteIdRegex.test(siteId);
+  };
+
   const validateForm = () => {
     const newErrors = {};
 
     if (!formData.siteName.trim()) newErrors.siteName = "Site name is required";
-    if (!formData.siteId.trim()) newErrors.siteId = "Site ID is required";
+    if (!formData.siteId.trim()) {
+      newErrors.siteId = "Site ID is required";
+    } else if (!validateSiteIdFormat(formData.siteId)) {
+      newErrors.siteId = "Site ID must be in the format SITE-XXX (e.g., SITE-123)";
+    }
     if (!formData.location.trim()) newErrors.location = "Location is required";
     if (!formData.siteType) newErrors.siteType = "Site type is required";
-    if (!formData.clientName.trim())
+    if (!formData.clientName.trim()) {
       newErrors.clientName = "Client name is required";
+    }
     if (!formData.clientContact.trim()) {
       newErrors.clientContact = "Contact number is required";
     } else if (!/^(?:\+?[1-9]\d{7,14}|0\d{9})$/.test(formData.clientContact)) {

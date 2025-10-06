@@ -35,6 +35,7 @@ const SupervisorRegistration = () => {
   const itemsPerPage = 5;
   const [formData, setFormData] = useState({
     id: "",
+    supervisorName: "",
     username: "",
     nic: "",
     password: "",
@@ -97,6 +98,7 @@ const SupervisorRegistration = () => {
   const handleEdit = (supervisor) => {
     setFormData({
       id: supervisor.supervisorId || supervisor.id,
+      supervisorName: supervisor.supervisorName || "",
       username: supervisor.username,
       nic: supervisor.nic || "",
       password: "",
@@ -111,6 +113,7 @@ const SupervisorRegistration = () => {
   const handleFormReset = () => {
     setFormData({
       id: "",
+      supervisorName: "",
       username: "",
       nic: "",
       password: "",
@@ -152,9 +155,10 @@ const SupervisorRegistration = () => {
     try {
       const supervisorData = {
         supervisorId: formData.id,
+        supervisorName: formData.supervisorName,
         username: formData.username,
         nic: formData.nic,
-        recoveryEmail: formData.email,
+        recoveryEmail: formData.email
       };
 
       // Only include password if it's a new supervisor or password is being changed
@@ -165,17 +169,36 @@ const SupervisorRegistration = () => {
       let response;
       
       if (isEditing && editingId) {
-        // Update existing supervisor
+        // Update existing supervisor - use the correct endpoint
         response = await axios.put(
           `${API_URL}/supervisors/${editingId}`,
           supervisorData
         );
+        
+        if (response.data.success) {
+          // Update the supervisors list by mapping through and updating the edited supervisor
+          setSupervisors(prevSupervisors => 
+            prevSupervisors.map(supervisor => 
+              supervisor._id === editingId 
+                ? { ...supervisor, ...supervisorData, _id: editingId } 
+                : supervisor
+            )
+          );
+        }
       } else {
         // Create new supervisor
         response = await axios.post(
-          API_URL + "/register",
+          `${API_URL}/register`,
           supervisorData
         );
+        
+        if (response.data.success) {
+          // Add the new supervisor to the list
+          setSupervisors(prevSupervisors => [
+            response.data.data,
+            ...prevSupervisors
+          ]);
+        }
       }
       
       if (response.data.success) {
@@ -184,9 +207,6 @@ const SupervisorRegistration = () => {
             ? "Supervisor updated successfully!" 
             : "Supervisor registered successfully!"
         );
-        // Refresh the supervisors list
-        const supervisorsResponse = await axios.get(API_URL + '/supervisors');
-        setSupervisors(supervisorsResponse.data.data || []);
         // Reset form and state
         handleFormReset();
       } else {
@@ -375,12 +395,23 @@ const SupervisorRegistration = () => {
                     <input
                       type="text"
                       name="id"
-                      placeholder="Enter unique supervisor ID"
+                      placeholder="Enter unique supervisor ID (e.g., SP-001)"
                       value={formData.id}
                       onChange={handleFormChange}
                       required
                     />
-                    <small>This ID will be used for system identification</small>
+                    <small>Format: SP-XXX (e.g., SP-001)</small>
+                    
+                    <label>SUPERVISOR NAME *</label>
+                    <input
+                      type="text"
+                      name="supervisorName"
+                      placeholder="Enter supervisor's full name"
+                      value={formData.supervisorName}
+                      onChange={handleFormChange}
+                      required
+                    />
+                    <small>Enter the full name of the supervisor</small>
 
                     <label>USERNAME *</label>
                     <input

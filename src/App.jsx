@@ -17,6 +17,7 @@ import SupervisorRegistration from './pages/admin/SupervisorRegistration';
 import WorkforceManagement from './pages/admin/WorkforceManagement';
 import MaterialManagement from './pages/admin/MaterialManagement';
 import ProjectReport from './pages/admin/ProjectReport';
+import ProfileManagement from './pages/admin/ProfileManagement';
 
 // Supervisor Components
 import SupervisorDashboard from './pages/supervisor/Dashboard';
@@ -86,6 +87,7 @@ function App() {
           <Route path="/admin/workforce" element={<WorkforceManagement />} />
           <Route path="/admin/materials" element={<MaterialManagement />} />
           <Route path="/admin/project-reports" element={<ProjectReport />} />
+          <Route path="/admin/profile" element={<ProfileManagement />} />
 
           {/* Supervisor Routes */}
           <Route path="/supervisor" element={<SupervisorDashboard />}>

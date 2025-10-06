@@ -29,17 +29,14 @@ const Sidebar = () => {
       title: "MANAGEMENT",
       items: [
         { icon: <FaMapMarkedAlt />, text: 'Site Management', path: '/admin/sitemanagement' },
-        { icon: <FaUserCog />, text: 'Profile Management', path: '/admin/supervisors' },
+        { icon: <FaUserCog />, text: 'Profile Management', path: '/admin/profile' },
         { icon: <FaUserTie />, text: 'Supervisor Registration', path: '/admin/supervisor/registration' },
-        { icon: <FaUsersCog />, text: 'Workforce Management', path: '/admin/workforce' },
-        { icon: <FaBoxes />, text: 'Material Management', path: '/admin/materials' },
       ],
     },
     {
       title: "REPORTS",
       items: [
         { icon: <FaChartBar />, text: 'Project Reports', path: '/admin/project-reports' },
-        { icon: <FaFileInvoiceDollar />, text: 'Financial Reports', path: '/admin/settings' },
       ],
     },
   ];
