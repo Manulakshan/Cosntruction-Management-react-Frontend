@@ -194,7 +194,7 @@ const SupervisorRegistration = () => {
       } else {
         // Create new supervisor
         response = await axios.post(
-          `${API_URL}/register`,
+          `${API_URL}/register`,  // Include the /register endpoint
           supervisorData
         );
         
