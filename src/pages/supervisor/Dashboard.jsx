@@ -78,7 +78,7 @@ const SupervisorDashboard = () => {
                 onClick={() => navigate("/supervisor/profile")}
               >
                 <FaUser className="nav-icon" />
-                My Profile
+                Supervisor Profile
               </li>
             </ul>
           </div>

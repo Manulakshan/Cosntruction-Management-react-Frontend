@@ -142,13 +142,6 @@ const LatestProjects = () => {
               <div key={project.id} className="project-card">
                 <div className="project-image">
                   <img src={project.image} alt={project.title} />
-                  <span
-                    className={`status-badge ${
-                      project.status === 'Completed' ? 'completed' : 'ongoing'
-                    }`}
-                  >
-                    {project.status}
-                  </span>
                 </div>
                 <div className="project-content">
                   <h3>{project.title}</h3>

@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import axios from "axios";
+import API_URL from "../../config/api";
 import "./MaterialManagement.css";
 import {
   FaCubes,
@@ -16,8 +18,32 @@ import {
 
 const MaterialManagement = () => {
   const [siteID, setSiteID] = useState("");
+  const [sites, setSites] = useState([]);
   const [notification, setNotification] = useState("");
-  const [averageCost, setAverageCost] = useState(10850);
+  const [averageCost, setAverageCost] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [sitesLoading, setSitesLoading] = useState(true);
+
+  // Fetch sites on component mount
+  React.useEffect(() => {
+    const fetchSites = async () => {
+      try {
+        console.log('Fetching sites from:', `${API_URL}/siteRegister`);
+        const response = await axios.get(`${API_URL}/siteRegister`);
+        console.log('Sites response:', response.data);
+        if (response.data && Array.isArray(response.data)) {
+          setSites(response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching sites:', error);
+        setNotification('Failed to load sites. Please try again later.');
+      } finally {
+        setSitesLoading(false);
+      }
+    };
+
+    fetchSites();
+  }, []);
 
   const [materials, setMaterials] = useState({
     Cement: { qty: 0, active: false },
@@ -46,10 +72,73 @@ const MaterialManagement = () => {
 
   const handleQtyChange = (name, value) => {
     if (!isNaN(value)) {
+      const qty = parseInt(value) < 0 ? 0 : parseInt(value);
       setMaterials({
         ...materials,
-        [name]: { ...materials[name], qty: parseInt(value) },
+        [name]: { ...materials[name], qty },
       });
+    }
+  };
+
+  const handleSave = async () => {
+    if (!siteID) {
+      alert("Please select a site ID first!");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      
+      // Format materials data for the backend
+      const requiredMaterials = [
+        { name: "Cement", quantity: materials["Cement"].qty },
+        { name: "Sand", quantity: materials["Sand"].qty },
+        { name: "Gravel", quantity: materials["Gravel"].qty },
+        { name: "Bricks", quantity: materials["Bricks"].qty },
+        { name: "Steel Bars", quantity: materials["Steel Bars"].qty },
+        { name: "Timber", quantity: materials["Timber"].qty },
+        { name: "Ready-mix Concrete", quantity: materials["Readymix"].qty },
+      ].filter(item => item.quantity > 0);
+
+      const additionalMaterials = [
+        { name: "Paint", quantity: materials["Paint"].qty },
+        { name: "Aluminium Door Unit", quantity: materials["Aluminium Door Units"].qty },
+        { name: "Glass Panel Unit", quantity: materials["Glass Panel Units"].qty },
+        { name: "Tiles", quantity: materials["Tiles"].qty },
+        { name: "Nails / Screws", quantity: materials["Nails / Screws"].qty },
+        { name: "Bitumen", quantity: materials["Bitumen (Roads)"].qty },
+        { name: "Crushed Stone", quantity: materials["Crushed Stone"].qty },
+      ].filter(item => item.quantity > 0);
+
+      console.log('Sending request with siteID:', siteID);
+      console.log('Required materials:', requiredMaterials);
+      console.log('Additional materials:', additionalMaterials);
+      
+      const response = await axios.post(
+        `${API_URL}/material/assign`,
+        {
+          siteId: siteID,
+          requiredMaterials,
+          additionalMaterials
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
+      // Update the average cost from the backend response
+      if (response.data.material?.estimatedAverageCost) {
+        setAverageCost(response.data.material.estimatedAverageCost);
+      }
+
+      alert("Materials saved successfully!");
+    } catch (error) {
+      console.error("Error saving materials:", error);
+      alert(`Failed to save materials: ${error.response?.data?.message || error.message}`);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -61,20 +150,30 @@ const MaterialManagement = () => {
       </div>
 
       {/* SITE SELECTION */}
-      <div className="site-section">
+      <div className="site-selection">
         <label htmlFor="site-id">SITE ID</label>
         <select
           id="site-id"
           value={siteID}
           onChange={(e) => setSiteID(e.target.value)}
+          disabled={sitesLoading}
         >
           <option value="">Select Site ID</option>
-          <option value="S001">S001</option>
-          <option value="S002">S002</option>
+          {sites.map((site) => (
+            <option key={site['SITE ID']} value={site['SITE ID']}>
+              {site['SITE ID']} - {site['SITE NAME']}
+            </option>
+          ))}
+          {sites.length === 0 && !sitesLoading && (
+            <option value="" disabled>No sites available</option>
+          )}
+          {sitesLoading && (
+            <option value="" disabled>Loading sites...</option>
+          )}
         </select>
       </div>
 
-      {/* REQUIRED AND ADDITIONAL MATERIALS */}
+      {/* MATERIALS SECTION */}
       <div className="materials-section">
         <div className="materials-column">
           <h3 className="column-title">REQUIRED MATERIALS</h3>
@@ -284,23 +383,21 @@ const MaterialManagement = () => {
           onChange={(e) => setNotification(e.target.value)}
           placeholder="Enter notification message..."
         />
-        <button className="save-btn">
-          <FaCubes /> Save Details
+        <button className="save-btn" onClick={handleSave} disabled={loading}>
+          <FaCubes /> {loading ? 'Saving...' : 'Save Details'}
         </button>
       </div>
 
       {/* COST SECTION */}
       <div className="cost-section">
-        <p>Select materials to generate an estimated cost.</p>
+        <p>Material Cost Summary</p>
         <p className="subtext">
-          Quantity box appears only when a material is toggled on. Values shown
-          are placeholders.
+          The estimated cost is calculated based on the quantities you've entered.
         </p>
         <div className="cost-bar">
-          Average material cost generated:{" "}
-          <span>${averageCost.toLocaleString()}.00</span>
+          Total Estimated Material Cost:{" "}
+          <span>₹{averageCost.toLocaleString('en-IN')}</span>
         </div>
-        <input type="text" value="$ 12,500.00" readOnly className="cost-input" />
       </div>
     </div>
   );

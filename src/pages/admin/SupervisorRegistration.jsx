@@ -433,6 +433,18 @@ const SupervisorRegistration = () => {
                     />
                     <small>Username must be 5–20 characters long</small>
 
+                    
+                    <label>EMAIL *</label>
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Enter a valid recovery email"
+                      value={formData.email}
+                      onChange={handleFormChange}
+                      required={!isEditing}
+                      autoComplete="new-password"
+                    />
+
                     <label>NIC *</label>
                     <input
                       type="text"
@@ -480,17 +492,6 @@ const SupervisorRegistration = () => {
                       name="confirmPassword"
                       placeholder="Confirm your password"
                       value={formData.confirmPassword}
-                      onChange={handleFormChange}
-                      required={!isEditing}
-                      autoComplete="new-password"
-                    />
-
-                    <label>RECOVERY EMAIL *</label>
-                    <input
-                      type="email"
-                      name="email"
-                      placeholder="Enter a valid recovery email"
-                      value={formData.email}
                       onChange={handleFormChange}
                       required={!isEditing}
                       autoComplete="new-password"
