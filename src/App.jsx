@@ -14,7 +14,7 @@ import Dashboard from './pages/admin/Dashboard';
 import SiteManagement from './pages/admin/SiteManagement';
 // import SupervisorsTable from './pages/admin/Supervisorstable';
 import SupervisorRegistration from './pages/admin/SupervisorRegistration';
-import WorkforceManagement from './pages/admin/WorkforceManagement';
+import WorkforceManagement from './pages/supervisor/WorkforceManagement';
 // import MaterialManagement from './pages/admin/MaterialManagement';
 import ProjectReport from './pages/admin/ProjectReport';
 import ProfileManagement from './pages/admin/ProfileManagement';
@@ -97,6 +97,11 @@ function App() {
             <Route path="materials" element={
               <ProtectedRoute>
                 <MaterialManagement />
+              </ProtectedRoute>
+            } />
+            <Route path="workforce" element={
+              <ProtectedRoute>
+                <WorkforceManagement />
               </ProtectedRoute>
             } />
           </Route>

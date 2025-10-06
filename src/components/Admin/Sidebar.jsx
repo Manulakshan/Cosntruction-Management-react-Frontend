@@ -55,6 +55,18 @@ const Sidebar = () => {
         { icon: <FaChartBar />, text: 'Project Reports', path: '/admin/project-reports' },
       ],
     },
+    {
+      title: "ACCOUNT",
+      items: [
+        { 
+          icon: <FaSignOutAlt />, 
+          text: 'Logout', 
+          path: '#',
+          onClick: handleLogout,
+          className: 'logout'
+        },
+      ],
+    },
   ];
 
   return (
@@ -68,26 +80,31 @@ const Sidebar = () => {
           <div key={i} className="menu-group">
             <p className="menu-group-title">{group.title}</p>
             {group.items.map((item, idx) => (
-              <Link
-                key={idx}
-                to={item.path}
-                className={`menu-item ${location.pathname === item.path ? 'active' : ''}`}
-              >
-                <span className="menu-icon">{item.icon}</span>
-                <span className="menu-text">{item.text}</span>
-              </Link>
+              item.onClick ? (
+                <div 
+                  key={idx}
+                  className={`menu-item ${item.className || ''}`}
+                  onClick={item.onClick}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <span className="menu-icon">{item.icon}</span>
+                  <span className="menu-text">{item.text}</span>
+                </div>
+              ) : (
+                <Link
+                  key={idx}
+                  to={item.path}
+                  className={`menu-item ${location.pathname === item.path ? 'active' : ''}`}
+                >
+                  <span className="menu-icon">{item.icon}</span>
+                  <span className="menu-text">{item.text}</span>
+                </Link>
+              )
             ))}
           </div>
         ))}
       </div>
       
-      {/* Logout Button */}
-      <div className="sidebar-footer">
-        <button onClick={handleLogout} className="logout-button">
-          <FaSignOutAlt className="menu-icon" />
-          <span className="menu-text">Logout</span>
-        </button>
-      </div>
     </div>
   );
 };

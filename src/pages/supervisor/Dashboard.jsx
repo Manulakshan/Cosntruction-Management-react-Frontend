@@ -97,9 +97,9 @@ const SupervisorDashboard = () => {
               </li>
               <li
                 className={`nav-item ${
-                  window.location.pathname === "/workforce" ? "active" : ""
+                  window.location.pathname === "/supervisor/workforce" ? "active" : ""
                 }`}
-                onClick={() => navigate("/workforce")}
+                onClick={() => navigate("workforce")}
               >
                 <FaUsers className="nav-icon" />
                 Workforce Management

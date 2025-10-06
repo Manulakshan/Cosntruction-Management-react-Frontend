@@ -136,13 +136,11 @@ const ProfileManagement = () => {
     setIsLoading(true);
 
     try {
+      // Only send the required fields to the backend
       const profileData = {
-        ...formData,
-        supervisorName: selectedSupervisor.name,
-        supervisorContact: selectedSupervisor.contact,
-        supervisorEmail: selectedSupervisor.email,
-        supervisorNIC: selectedSupervisor.nic,
-        siteName: selectedSite?.name || formData.siteId
+        supervisorId: formData.supervisorId,
+        siteId: formData.siteId,
+        allocatedPeriod: formData.allocatedPeriod
       };
 
       const API_BASE_URL = 'http://localhost:3000/api';

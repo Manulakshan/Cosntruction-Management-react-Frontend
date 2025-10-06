@@ -1,0 +1,231 @@
+.wm-main-container {
+  font-family: 'Inter', sans-serif;
+  background: #f9f9f9;
+  min-height: 100vh;
+  color: #333;
+  overflow-y: auto;
+  padding-bottom: 80px;
+}
+
+/* Sticky header */
+.wm-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 15px 20px;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.tab {
+  background: #d92525;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: default;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.select-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.select-box select {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 14px;
+  background: #fff;
+}
+
+/* Scrollable content */
+.wm-scrollable-content {
+  padding: 25px 30px;
+}
+
+/* Two-column layout */
+.wm-content {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+/* Section cards */
+.workforce-section,
+.allocation-section {
+  background: white;
+  flex: 1;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  min-width: 380px;
+}
+
+h3 {
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+/* Role cards */
+.role-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f3f4f6;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+.role-info p {
+  font-size: 13px;
+  color: #888;
+  margin: 3px 0 0 0;
+}
+
+/* Toggle switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0;
+  right: 0; bottom: 0;
+  background-color: #ddd;
+  border-radius: 24px;
+  transition: 0.3s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+input:checked + .slider {
+  background-color: #b61e1e;
+}
+
+input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+/* Allocation fields */
+.allocation-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.allocation-field label {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.allocation-field input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #f1f1f1;
+}
+
+.allocation-field input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Save button */
+.save-btn {
+  background: #631717;
+  color: #fff;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 15px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.save-btn:hover {
+  background: #821c1c;
+}
+
+/* Cost summary */
+.cost-summary {
+  margin-top: 30px;
+  background: #fff;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.cost-summary h3 {
+  margin-bottom: 20px;
+  font-size: 17px;
+}
+
+.cost-cards {
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.cost-card {
+  flex: 1;
+  background: #f7f7f7;
+  border-radius: 12px;
+  padding: 20px;
+  min-width: 250px;
+}
+
+.cost-card h4 {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.cost-value {
+  font-size: 20px;
+  color: #b61e1e;
+  font-weight: 700;
+}
