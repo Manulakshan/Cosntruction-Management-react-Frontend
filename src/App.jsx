@@ -15,13 +15,14 @@ import SiteManagement from './pages/admin/SiteManagement';
 // import SupervisorsTable from './pages/admin/Supervisorstable';
 import SupervisorRegistration from './pages/admin/SupervisorRegistration';
 import WorkforceManagement from './pages/admin/WorkforceManagement';
-import MaterialManagement from './pages/admin/MaterialManagement';
+// import MaterialManagement from './pages/admin/MaterialManagement';
 import ProjectReport from './pages/admin/ProjectReport';
 import ProfileManagement from './pages/admin/ProfileManagement';
 
 // Supervisor Components
 import SupervisorDashboard from './pages/supervisor/Dashboard';
 import SupervisorHome from './pages/supervisor/Home';
+import MaterialManagement from './pages/supervisor/MaterialManagement';
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -85,7 +86,7 @@ function App() {
           {/* <Route path="/admin/supervisors" element={<SupervisorsTable />} /> */}
           <Route path="/admin/supervisor/registration" element={<SupervisorRegistration />} />
           <Route path="/admin/workforce" element={<WorkforceManagement />} />
-          <Route path="/admin/materials" element={<MaterialManagement />} />
+          {/* <Route path="/admin/materials" element={<MaterialManagement />} /> */}
           <Route path="/admin/project-reports" element={<ProjectReport />} />
           <Route path="/admin/profile" element={<ProfileManagement />} />
 
@@ -93,7 +94,11 @@ function App() {
           <Route path="/supervisor" element={<SupervisorDashboard />}>
             <Route index element={<SupervisorHome />} />
             <Route path="dashboard" element={<SupervisorHome />} />
-            {/* Add more supervisor routes here as needed */}
+            <Route path="materials" element={
+              <ProtectedRoute>
+                <MaterialManagement />
+              </ProtectedRoute>
+            } />
           </Route>
 
           {/* 404 Route */}
