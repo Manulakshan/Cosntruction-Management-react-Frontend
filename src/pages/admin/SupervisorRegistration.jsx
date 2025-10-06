@@ -125,6 +125,12 @@ const SupervisorRegistration = () => {
     setShowForm(false);
   };
 
+  // Reset form when showing the form
+  const handleAddSupervisor = () => {
+    handleFormReset();
+    setShowForm(true);
+  };
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     
@@ -133,13 +139,13 @@ const SupervisorRegistration = () => {
       return;
     }
 
-    if (!formData.id || !formData.username || !formData.email || !formData.nic) {
+    if (!formData.id || !formData.username || !formData.email || !formData.nic || !formData.supervisorName) {
       toast.error("Please fill all required fields");
       return;
     }
     // Only require password for new supervisor
     if (!isEditing && !formData.password) {
-      toast.error("Password is required");
+      toast.error("Password is required for new supervisor registration");
       return;
     }
 
@@ -275,7 +281,7 @@ const SupervisorRegistration = () => {
               <div className="supervisor-card">
                 <div className="supervisor-header">
                   <h2>Registered Supervisors Details</h2>
-                  <button className="add-btn" onClick={() => setShowForm(true)}>
+                  <button className="add-btn" onClick={handleAddSupervisor}>
                     <FaPlus /> Add Supervisor
                   </button>
                 </div>
@@ -398,7 +404,8 @@ const SupervisorRegistration = () => {
                       placeholder="Enter unique supervisor ID (e.g., SP-001)"
                       value={formData.id}
                       onChange={handleFormChange}
-                      required
+                      required={!isEditing}
+                      autoComplete="new-password"
                     />
                     <small>Format: SP-XXX (e.g., SP-001)</small>
                     
@@ -409,7 +416,8 @@ const SupervisorRegistration = () => {
                       placeholder="Enter supervisor's full name"
                       value={formData.supervisorName}
                       onChange={handleFormChange}
-                      required
+                      required={!isEditing}
+                      autoComplete="new-password"
                     />
                     <small>Enter the full name of the supervisor</small>
 
@@ -420,7 +428,8 @@ const SupervisorRegistration = () => {
                       placeholder="Choose a username"
                       value={formData.username}
                       onChange={handleFormChange}
-                      required
+                      required={!isEditing}
+                      autoComplete="new-password"
                     />
                     <small>Username must be 5–20 characters long</small>
 
@@ -431,7 +440,8 @@ const SupervisorRegistration = () => {
                       placeholder="Enter National Identity Card number"
                       value={formData.nic}
                       onChange={handleFormChange}
-                      required
+                      required={!isEditing}
+                      autoComplete="new-password"
                     />
                     <small>This will be used for official identification</small>
 
@@ -442,26 +452,27 @@ const SupervisorRegistration = () => {
                       placeholder="Create a strong password"
                       value={formData.password}
                       onChange={handleFormChange}
-                      required
+                      required={!isEditing}
+                      autoComplete="new-password"
                     />
 
                     <div className="password-checklist">
                       <div className={passwordValidations.hasMinLength ? 'valid' : ''}>
                         <span>✓</span> At least 8 characters
-                      </div>
-                      <div className={passwordValidations.hasSpecialChar ? 'valid' : ''}>
-                        <span>✓</span> One special character
-                      </div>
-                      <div className={passwordValidations.hasNumber ? 'valid' : ''}>
-                        <span>✓</span> One number
-                      </div>
-                      <div className={passwordValidations.hasLowercase ? 'valid' : ''}>
-                        <span>✓</span> One lowercase letter
-                      </div>
-                      <div className={passwordValidations.hasUppercase ? 'valid' : ''}>
-                        <span>✓</span> One uppercase letter
-                      </div>
                     </div>
+                    <div className={passwordValidations.hasSpecialChar ? 'valid' : ''}>
+                      <span>✓</span> One special character
+                    </div>
+                    <div className={passwordValidations.hasNumber ? 'valid' : ''}>
+                      <span>✓</span> One number
+                    </div>
+                    <div className={passwordValidations.hasLowercase ? 'valid' : ''}>
+                      <span>✓</span> One lowercase letter
+                    </div>
+                    <div className={passwordValidations.hasUppercase ? 'valid' : ''}>
+                      <span>✓</span> One uppercase letter
+                    </div>
+                  </div>
 
                     <label>CONFIRM PASSWORD *</label>
                     <input
@@ -470,7 +481,8 @@ const SupervisorRegistration = () => {
                       placeholder="Confirm your password"
                       value={formData.confirmPassword}
                       onChange={handleFormChange}
-                      required
+                      required={!isEditing}
+                      autoComplete="new-password"
                     />
 
                     <label>RECOVERY EMAIL *</label>
@@ -480,7 +492,8 @@ const SupervisorRegistration = () => {
                       placeholder="Enter a valid recovery email"
                       value={formData.email}
                       onChange={handleFormChange}
-                      required
+                      required={!isEditing}
+                      autoComplete="new-password"
                     />
 
                     <button 

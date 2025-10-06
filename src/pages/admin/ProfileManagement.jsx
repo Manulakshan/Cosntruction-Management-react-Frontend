@@ -10,67 +10,114 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import "./ProfileManagement.css";
 import "./Dashboard.css";
+import API_URL from "../../config/api";
 
 const ProfileManagement = () => {
+  const API_BASE_URL = API_URL;
   const [formData, setFormData] = useState({
     supervisorId: "",
     siteId: "",
     allocatedPeriod: "",
+    supervisorName: "",
+    supervisorNIC: "",
+    supervisorContact: "",
+    supervisorEmail: ""
   });
 
   const [supervisors, setSupervisors] = useState([]);
-  const [registeredSupervisors, setRegisteredSupervisors] = useState([]);
   const [sites, setSites] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [registeredSupervisors, setRegisteredSupervisors] = useState([]);
   const [selectedSupervisor, setSelectedSupervisor] = useState(null);
   const [selectedSite, setSelectedSite] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentProfileId, setCurrentProfileId] = useState(null);
 
   // Fetch data for Profile Management
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Base URL for API requests
-        const API_BASE_URL = 'http://localhost:3000/api';
+        console.log('Fetching registered supervisors...');
+        const supervisorsRes = await axios.get(`${API_BASE_URL}/supRegister/supervisors`);
+        const allSupervisors = supervisorsRes.data?.data || [];
+        console.log('Registered supervisors:', allSupervisors);
+        
+        // Create a map of supervisors by ID for quick lookup
+        const supervisorsMap = allSupervisors.reduce((map, supervisor) => {
+          if (supervisor._id) {
+            console.log(`Mapping supervisor _id: ${supervisor._id}`, supervisor);
+            map[supervisor._id] = supervisor;
+          }
+          if (supervisor.supervisorId) {
+            console.log(`Mapping supervisor supervisorId: ${supervisor.supervisorId}`, supervisor);
+            map[supervisor.supervisorId] = supervisor;
+          }
+          return map;
+        }, {});
 
-        // Fetch supervisor profiles (only those created through Profile Management)
+        console.log('Fetching supervisor profiles...');
         const profilesRes = await axios.get(`${API_BASE_URL}/supervisor-profiles`);
+        console.log('Raw profiles response:', profilesRes.data);
+        
         if (profilesRes.data) {
-          const profiles = Array.isArray(profilesRes.data) ? profilesRes.data : 
-                         (profilesRes.data.data || profilesRes.data.profiles || []);
-          
-          setSupervisors(profiles);
-          
-          // Extract unique supervisor and site data from profiles
-          const uniqueSupervisorIds = [...new Set(profiles.map(p => p.supervisorId))];
-          const uniqueSiteIds = [...new Set(profiles.map(p => p.siteId).filter(Boolean))];
-          
-          // Set supervisors and sites from profile data
-          const supervisorsData = profiles
-            .filter(profile => profile.supervisorId)
-            .map(profile => ({
-              _id: profile.supervisorId,
-              name: profile.supervisorName,
-              contact: profile.supervisorContact,
-              email: profile.supervisorEmail,
-              nic: profile.supervisorNIC
-            }));
+          let profiles = Array.isArray(profilesRes.data)
+            ? profilesRes.data
+            : profilesRes.data.data || profilesRes.data.profiles || [];
+
+          console.log('Processing profiles:', profiles);
+
+          // Enhance profiles with registered supervisor data
+          const enhancedProfiles = profiles.map(profile => {
+            console.log('Processing profile:', profile);
+            const supervisorId = profile.supervisorId || (profile.supervisor && profile.supervisor._id) || null;
+            console.log('Looking up supervisor with ID:', supervisorId);
+            const supervisorData = supervisorId ? supervisorsMap[supervisorId] : null;
+            console.log('Found supervisor data:', supervisorData);
             
-          const sitesData = profiles
-            .filter(profile => profile.siteId)
-            .map(profile => ({
-              _id: profile.siteId,
+            const enhancedProfile = {
+              ...profile,
+              // Supervisor details from registration
+              name: profile.supervisorName || supervisorData?.supervisorName || 'N/A',
+              nic: profile.supervisorNIC || supervisorData?.nic || 'N/A',
+              // Using username as contact if contact is not available
+              contact: profile.supervisorContact || supervisorData?.username || 'N/A',
+              // Using recoveryEmail as email if email is not available
+              email: profile.supervisorEmail || supervisorData?.recoveryEmail || 'N/A',
+              // Keep original IDs
+              supervisorId: supervisorId,
               siteId: profile.siteId,
-              name: profile.siteName || `Site ${profile.siteId}`
-            }));
+              // Format display values
+              site: profile.siteId ? `Site ${profile.siteId}` : 'N/A',
+              period: profile.allocatedPeriod || 'N/A',
+              // Include additional supervisor data if available
+              ...(supervisorData ? {
+                username: supervisorData.username,
+                recoveryEmail: supervisorData.recoveryEmail,
+                isActive: supervisorData.isActive
+              } : {})
+            };
             
-          setRegisteredSupervisors(supervisorsData);
+            console.log('Enhanced profile:', enhancedProfile);
+            return enhancedProfile;
+          });
+
+          setSupervisors(enhancedProfiles);
+          setRegisteredSupervisors(allSupervisors);
+
+          // Extract unique sites for dropdown/filtering if needed
+          const sitesData = [...new Set(profiles.map(p => p.siteId))]
+            .filter(Boolean)
+            .map(siteId => ({
+              _id: siteId,
+              siteId,
+              name: `Site ${siteId}`
+            }));
+
           setSites(sitesData);
         }
       } catch (error) {
         console.error("Error fetching profile data:", error);
         toast.error("Error loading profile data. Please try again later.");
-        
-        // Set empty arrays to prevent showing any data
         setSupervisors([]);
         setRegisteredSupervisors([]);
         setSites([]);
@@ -80,11 +127,10 @@ const ProfileManagement = () => {
     fetchData();
   }, []);
 
-  // Update selected supervisor and site when form data changes
   useEffect(() => {
     if (formData.supervisorId) {
       const supervisor = registeredSupervisors.find(
-        s => s._id === formData.supervisorId || s.supervisorId === formData.supervisorId
+        (s) => s._id === formData.supervisorId || s.supervisorId === formData.supervisorId
       );
       setSelectedSupervisor(supervisor || null);
     } else {
@@ -93,7 +139,7 @@ const ProfileManagement = () => {
 
     if (formData.siteId) {
       const site = sites.find(
-        s => s._id === formData.siteId || s.siteId === formData.siteId
+        (s) => s._id === formData.siteId || s.siteId === formData.siteId
       );
       setSelectedSite(site || null);
     } else {
@@ -103,83 +149,11 @@ const ProfileManagement = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
+    console.log(`Field ${name} changed to:`, value);
+    setFormData(prev => ({
       ...prev,
       [name]: value,
     }));
-  };
-
-  const validateSiteId = (siteId) => {
-    const siteIdRegex = /^SITE-\d{3}$/;
-    return siteIdRegex.test(siteId);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!formData.supervisorId || !formData.siteId || !formData.allocatedPeriod) {
-      toast.error("Please fill in all required fields");
-      return;
-    }
-
-    if (!selectedSupervisor) {
-      toast.error("Please select a valid supervisor");
-      return;
-    }
-
-    // Validate site ID format
-    if (!validateSiteId(formData.siteId)) {
-      toast.error("Please enter a valid site ID in the format SITE-XXX (e.g., SITE-123)");
-      return;
-    }
-
-    setIsLoading(true);
-
-    try {
-      // Only send the required fields to the backend
-      const profileData = {
-        supervisorId: formData.supervisorId,
-        siteId: formData.siteId,
-        allocatedPeriod: formData.allocatedPeriod
-      };
-
-      const API_BASE_URL = 'http://localhost:3000/api';
-      const response = await axios.post(
-        `${API_BASE_URL}/supervisor-profiles`,
-        profileData,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-
-      if (response.data.success) {
-        toast.success("Profile saved successfully!");
-        // Refresh the profiles list
-        const profilesRes = await axios.get("http://localhost:3000/api/supervisor-profiles");
-        if (profilesRes.data.success) {
-          setSupervisors(profilesRes.data.profiles || []);
-        }
-        
-        setFormData({
-          supervisorId: "",
-          siteId: "",
-          allocatedPeriod: "",
-        });
-        setSelectedSupervisor(null);
-        setSelectedSite(null);
-      } else {
-        throw new Error(response.data.message || "Failed to save profile");
-      }
-    } catch (error) {
-      console.error("Error details:", error);
-      const errorMessage =
-        error.response?.data?.message ||
-        error.message ||
-        "Failed to save profile. Please try again.";
-      toast.error(errorMessage);
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   const handleCancel = () => {
@@ -187,10 +161,150 @@ const ProfileManagement = () => {
       supervisorId: "",
       siteId: "",
       allocatedPeriod: "",
+      supervisorName: "",
+      supervisorNIC: "",
+      supervisorContact: "",
+      supervisorEmail: ""
     });
+    setIsEditing(false);
+    setCurrentProfileId(null);
   };
 
-  // Mock data (fallback if API not connected)
+  const handleEditSupervisor = (profile) => {
+    console.log('Editing profile:', profile);
+    setFormData({
+      supervisorId: profile.supervisorId || profile.id || "",
+      siteId: profile.siteId || (profile.site ? profile.site.replace('Site ', '') : ""),
+      allocatedPeriod: profile.period || profile.allocatedPeriod || "",
+      supervisorName: profile.name || profile.supervisorName || "",
+      supervisorNIC: profile.nic || profile.supervisorNIC || "",
+      supervisorContact: profile.contact || profile.supervisorContact || "",
+      supervisorEmail: profile.email || profile.supervisorEmail || ""
+    });
+    setIsEditing(true);
+    setCurrentProfileId(profile._id || profile.id);
+    // Scroll to the form
+    document.querySelector('.profile-form')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log('Form submitted:', formData);
+    
+    if (!formData.supervisorId) {
+      toast.error('Supervisor ID is required');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const profileData = {
+        supervisorId: formData.supervisorId,
+        siteId: formData.siteId,
+        allocatedPeriod: formData.allocatedPeriod,
+        supervisorName: formData.supervisorName,
+        supervisorNIC: formData.supervisorNIC,
+        supervisorContact: formData.supervisorContact,
+        supervisorEmail: formData.supervisorEmail,
+      };
+      
+      console.log('Sending data to API:', profileData);
+
+      let response;
+      if (isEditing && currentProfileId) {
+        // Update existing profile
+        response = await axios.put(
+          `${API_BASE_URL}/supervisor-profiles/${currentProfileId}`,
+          profileData
+        );
+        
+        if (response.data.success) {
+          const updatedProfile = response.data.data;
+          
+          // Update the local state with the complete updated profile from the server
+          setSupervisors(prev => 
+            prev.map(sup => {
+              // Match by _id or id, whichever is available
+              const isMatch = (sup._id === currentProfileId || sup.id === currentProfileId || 
+                             (sup.supervisorId && sup.supervisorId === updatedProfile.supervisorId));
+              
+              if (isMatch) {
+                // Merge the existing profile with the updated data
+                return {
+                  ...sup,
+                  ...updatedProfile,
+                  // Keep any additional fields that might be in the UI but not in the response
+                  name: updatedProfile.supervisorName || sup.name,
+                  nic: updatedProfile.supervisorNIC || sup.nic,
+                  contact: updatedProfile.supervisorContact || sup.contact,
+                  email: updatedProfile.supervisorEmail || sup.email,
+                  site: updatedProfile.siteId ? `Site ${updatedProfile.siteId}` : sup.site,
+                  period: updatedProfile.allocatedPeriod || sup.period
+                };
+              }
+              return sup;
+            })
+          );
+          toast.success('Profile updated successfully');
+        }
+      } else {
+        // Create new profile
+        response = await axios.post(
+          `${API_BASE_URL}/supervisor-profiles`,
+          profileData
+        );
+        
+        // Add the new profile to the local state
+        const newProfile = response.data.data || response.data;
+        setSupervisors(prev => [newProfile, ...prev]);
+        toast.success('Profile created successfully');
+      }
+
+      // Reset form
+      handleCancel();
+    } catch (error) {
+      console.error('Error saving profile:', error);
+      toast.error(error.response?.data?.message || 'Error saving profile');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDeleteSupervisor = async (supervisorId, index) => {
+    if (!window.confirm('Are you sure you want to delete this supervisor profile?')) {
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      // If using mock data, filter it out from the local state
+      if (supervisors === mockSupervisors) {
+        setSupervisors(prev => prev.filter((_, i) => i !== index));
+        toast.success('Supervisor profile deleted successfully');
+        return;
+      }
+
+      // If using real API, make the delete request
+      const response = await axios.delete(`${API_BASE_URL}/supervisor-profiles/${supervisorId}`);
+      
+      if (response.data.success) {
+        // Remove the deleted supervisor from the state
+        setSupervisors(prev => prev.filter(sup => 
+          sup._id !== supervisorId && sup.supervisorId !== supervisorId
+        ));
+        toast.success('Supervisor profile deleted successfully');
+      } else {
+        throw new Error(response.data.message || 'Failed to delete supervisor profile');
+      }
+    } catch (error) {
+      console.error('Error deleting supervisor profile:', error);
+      toast.error(error.response?.data?.message || 'Error deleting supervisor profile');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Mock data
   const mockSupervisors = [
     {
       initials: "KP",
@@ -333,7 +447,7 @@ const ProfileManagement = () => {
                   className="save-button"
                   disabled={isLoading}
                 >
-                  {isLoading ? "Saving..." : "Save Changes"}
+                  {isLoading ? (isEditing ? "Updating..." : "Saving...") : (isEditing ? "Update Profile" : "Add Profile")}
                 </button>
               </div>
             </form>
@@ -348,34 +462,54 @@ const ProfileManagement = () => {
             </h3>
 
             <div className="supervisor-card-grid">
-              {supervisors.length > 0 ? (
-                supervisors.map((profile, index) => {
-                  // Get supervisor details
-                  const supervisor = registeredSupervisors.find(
-                    s => s._id === profile.supervisorId || s.supervisorId === profile.supervisorId
-                  );
-                  
-                  // Get site details
-                  const site = sites.find(
-                    s => s._id === profile.siteId || s.siteId === profile.siteId
-                  );
-
-                  return (
-                    <div key={index} className="supervisor-card">
-                      <div className="supervisor-avatar">
-                        {supervisor?.name?.split(" ").map(n => n[0]).join("") || 'NA'}
-                      </div>
-                      <h3>{supervisor?.name || 'N/A'}</h3>
-                      <p className="supervisor-id">Supervisor ID: {profile.supervisorId}</p>
-                      <p><strong>NIC:</strong> {supervisor?.nic || 'N/A'}</p>
-                      <p><strong>Site ID:</strong> {site?.siteId || profile.siteId || 'N/A'}</p>
-                      <p><strong>Site Name:</strong> {site?.name || 'N/A'}</p>
-                      <p><strong>Period:</strong> {profile.allocatedPeriod}</p>
-                      <p><strong>Contact:</strong> {supervisor?.contact || 'N/A'}</p>
-                      <p><strong>Email:</strong> {supervisor?.email || 'N/A'}</p>
+              {displayedSupervisors.length > 0 ? (
+                displayedSupervisors.map((profile, index) => (
+                  <div key={index} className="supervisor-card">
+                    <div className="supervisor-avatar">
+                      {(profile.name || 'NA')
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")}
                     </div>
-                  );
-                })
+                    <h3>{profile.name || 'N/A'}</h3>
+                    <p className="supervisor-id">
+                      <strong>ID:</strong> {profile.supervisorId || 'N/A'}
+                    </p>
+                    <p>
+                      <strong>NIC:</strong> {profile.nic || 'N/A'}
+                    </p>
+                    <p>
+                      <strong>Site:</strong> {profile.site || (profile.siteId ? `Site ${profile.siteId}` : 'N/A')}
+                    </p>
+                    <p>
+                      <strong>Period:</strong> {profile.period || 'N/A'}
+                    </p>
+                    <p>
+                      <strong>Contact:</strong> {profile.contact || 'N/A'}
+                    </p>
+                    <p>
+                      <strong>Email:</strong> {profile.email || 'N/A'}
+                    </p>
+
+                    {/* --- Edit & Delete Buttons --- */}
+                    <div className="card-actions">
+                      <button 
+                        className="edit-btn"
+                        onClick={() => handleEditSupervisor(profile)}
+                        disabled={isLoading}
+                      >
+                        <i className="fas fa-edit"></i> {isLoading && currentProfileId === (profile._id || profile.id) ? 'Editing...' : 'Edit'}
+                      </button>
+                      <button 
+                        className="delete-btn"
+                        onClick={() => handleDeleteSupervisor(profile._id || profile.id, index)}
+                        disabled={isLoading}
+                      >
+                        <i className="fas fa-trash-alt"></i> {isLoading ? 'Deleting...' : 'Delete'}
+                      </button>
+                    </div>
+                  </div>
+                ))
               ) : (
                 <p>No supervisor profiles found. Add a new profile to get started.</p>
               )}

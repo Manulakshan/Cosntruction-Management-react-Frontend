@@ -19,6 +19,39 @@ import {
 const ProjectReport = () => {
   const [sites, setSites] = useState([]);
   const [selectedSite, setSelectedSite] = useState("");
+  const [siteData, setSiteData] = useState({
+    workers: [],
+    materials: []
+  });
+  
+  // Generate sample data based on site ID for demonstration
+  const generateSiteData = (siteId) => {
+    // Use the site ID to generate consistent but unique data for each site
+    const seed = siteId ? parseInt(siteId.slice(-4), 16) || 1 : 1;
+    
+    // Generate worker data with variations based on site
+    const workerTypes = ["Laborers", "Masons", "Carpenters", "Plumbers", "Electricians", "Supervisors"];
+    const workers = workerTypes.map((type, index) => ({
+      name: type,
+      value: Math.floor((seed * (index + 1) * 10) % 500) + 20
+    }));
+    
+    // Generate material data with variations based on site
+    const materialTypes = ["Cement", "Steel Bars", "Bricks", "Sand", "Gravel", "Timber", "Readymix"];
+    const materials = materialTypes.map((type, index) => ({
+      name: type,
+      quantity: Math.floor((seed * (index + 2) * 15) % 10000) + 1000
+    }));
+    
+    return { workers, materials };
+  };
+  
+  // Update site data when selected site changes
+  useEffect(() => {
+    if (selectedSite) {
+      setSiteData(generateSiteData(selectedSite));
+    }
+  }, [selectedSite]);
 
   useEffect(() => {
     // Fetch all sites
@@ -102,35 +135,16 @@ const ProjectReport = () => {
   const handleSiteChange = (e) => {
     setSelectedSite(e.target.value);
   };
-  // ===== Workers Distribution Data =====
-  const workerData = [
-    { name: "Laborers", value: 400 },
-    { name: "Masons", value: 250 },
-    { name: "Carpenters", value: 150 },
-    { name: "Plumbers", value: 100 },
-    { name: "Electricians", value: 80 },
-    { name: "Supervisors", value: 70 },
-  ];
-
+  // Colors for charts
   const workerColors = [
-    "#f8c8dc",
-    "#c6d3ff",
-    "#a8caff",
-    "#9cf2ff",
-    "#8ff2e5",
-    "#7ff5cf",
+    "#f8c8dc", "#c6d3ff", "#a8caff", 
+    "#9cf2ff", "#8ff2e5", "#7ff5cf"
   ];
-
-  // ===== Materials Data =====
-  const materialData = [
-    { name: "Cement", quantity: 9800 },
-    { name: "Steel Bars", quantity: 6900 },
-    { name: "Bricks", quantity: 7900 },
-    { name: "Sand", quantity: 6400 },
-    { name: "Gravel", quantity: 5400 },
-    { name: "Timber", quantity: 4600 },
-    { name: "Readymix", quantity: 3500 },
-  ];
+  
+  // Get selected site name for display
+  const selectedSiteName = selectedSite 
+    ? sites.find(site => site._id === selectedSite)?.['SITE ID'] || 'Selected Site'
+    : 'No Site Selected';
 
   return (
     <div className="project-report-page">
@@ -139,7 +153,7 @@ const ProjectReport = () => {
       <div className="project-report-container">
         {/* ===== HEADER ===== */}
         <div className="project-header">
-          <h2>PROJECT REPORT</h2>
+          <h2>PROJECT REPORT: {selectedSiteName}</h2>
           <div className="site-select">
             <label htmlFor="site-id">Site ID</label>
             <select 
@@ -220,21 +234,22 @@ const ProjectReport = () => {
             <ResponsiveContainer width="100%" height={350}>
               <PieChart>
                 <Pie
-                  data={workerData}
+                  data={siteData.workers}
                   dataKey="value"
                   nameKey="name"
                   cx="50%"
                   cy="50%"
                   outerRadius={120}
+                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
                 >
-                  {workerData.map((entry, index) => (
+                  {siteData.workers.map((entry, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={workerColors[index % workerColors.length]}
                     />
                   ))}
                 </Pie>
-                <Tooltip />
+                <Tooltip formatter={(value, name) => [`${value} workers`, name]} />
                 <Legend />
               </PieChart>
             </ResponsiveContainer>
@@ -244,16 +259,24 @@ const ProjectReport = () => {
           <div className="chart-card">
             <h3>Materials</h3>
             <ResponsiveContainer width="100%" height={350}>
-              <BarChart data={materialData}>
+              <BarChart data={siteData.materials}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
+                <XAxis dataKey="name" angle={-45} textAnchor="end" height={70} />
                 <YAxis />
-                <Tooltip />
+                <Tooltip formatter={(value) => [`${value} units`, 'Quantity']} />
                 <Bar
                   dataKey="quantity"
                   radius={[8, 8, 0, 0]}
                   fill="#6d0e0e"
-                />
+                  name="Quantity"
+                >
+                  {siteData.materials.map((entry, index) => (
+                    <Cell 
+                      key={`cell-${index}`} 
+                      fill={`hsl(${200 + (index * 30) % 155}, 70%, 50%)`}
+                    />
+                  ))}
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
           </div>
