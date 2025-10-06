@@ -25,30 +25,55 @@ const ProfileManagement = () => {
   const [selectedSupervisor, setSelectedSupervisor] = useState(null);
   const [selectedSite, setSelectedSite] = useState(null);
 
-  // Fetch registered supervisors and sites
+  // Fetch data for Profile Management
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch registered supervisors
-        const supervisorsRes = await axios.get("http://localhost:3000/api/supervisors");
-        if (supervisorsRes.data.success) {
-          setRegisteredSupervisors(supervisorsRes.data.supervisors || []);
-        }
+        // Base URL for API requests
+        const API_BASE_URL = 'http://localhost:3000/api';
 
-        // Fetch sites
-        const sitesRes = await axios.get("http://localhost:3000/api/sites");
-        if (sitesRes.data.success) {
-          setSites(sitesRes.data.sites || []);
-        }
-
-        // Fetch supervisor profiles
-        const profilesRes = await axios.get("http://localhost:3000/api/supervisor-profiles");
-        if (profilesRes.data.success) {
-          setSupervisors(profilesRes.data.profiles || []);
+        // Fetch supervisor profiles (only those created through Profile Management)
+        const profilesRes = await axios.get(`${API_BASE_URL}/supervisor-profiles`);
+        if (profilesRes.data) {
+          const profiles = Array.isArray(profilesRes.data) ? profilesRes.data : 
+                         (profilesRes.data.data || profilesRes.data.profiles || []);
+          
+          setSupervisors(profiles);
+          
+          // Extract unique supervisor and site data from profiles
+          const uniqueSupervisorIds = [...new Set(profiles.map(p => p.supervisorId))];
+          const uniqueSiteIds = [...new Set(profiles.map(p => p.siteId).filter(Boolean))];
+          
+          // Set supervisors and sites from profile data
+          const supervisorsData = profiles
+            .filter(profile => profile.supervisorId)
+            .map(profile => ({
+              _id: profile.supervisorId,
+              name: profile.supervisorName,
+              contact: profile.supervisorContact,
+              email: profile.supervisorEmail,
+              nic: profile.supervisorNIC
+            }));
+            
+          const sitesData = profiles
+            .filter(profile => profile.siteId)
+            .map(profile => ({
+              _id: profile.siteId,
+              siteId: profile.siteId,
+              name: profile.siteName || `Site ${profile.siteId}`
+            }));
+            
+          setRegisteredSupervisors(supervisorsData);
+          setSites(sitesData);
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
-        toast.error("Error loading data. Using mock data.");
+        console.error("Error fetching profile data:", error);
+        toast.error("Error loading profile data. Please try again later.");
+        
+        // Set empty arrays to prevent showing any data
+        setSupervisors([]);
+        setRegisteredSupervisors([]);
+        setSites([]);
       }
     };
 
@@ -120,8 +145,9 @@ const ProfileManagement = () => {
         siteName: selectedSite?.name || formData.siteId
       };
 
+      const API_BASE_URL = 'http://localhost:3000/api';
       const response = await axios.post(
-        "http://localhost:3000/api/supervisor-profiles",
+        `${API_BASE_URL}/supervisor-profiles`,
         profileData,
         {
           headers: { "Content-Type": "application/json" },

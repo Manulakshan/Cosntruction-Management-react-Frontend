@@ -11,10 +11,26 @@ import {
   FaBoxes,
   FaChartBar,
   FaFileInvoiceDollar,
+  FaSignOutAlt,
 } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Sidebar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Clear any user data from local storage
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    
+    // Show success message
+    toast.success('Logged out successfully');
+    
+    // Redirect to login page
+    navigate('/login');
+  };
 
   // Grouped menu items
   const menuGroups = [
@@ -63,6 +79,14 @@ const Sidebar = () => {
             ))}
           </div>
         ))}
+      </div>
+      
+      {/* Logout Button */}
+      <div className="sidebar-footer">
+        <button onClick={handleLogout} className="logout-button">
+          <FaSignOutAlt className="menu-icon" />
+          <span className="menu-text">Logout</span>
+        </button>
       </div>
     </div>
   );
