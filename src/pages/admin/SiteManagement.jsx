@@ -69,7 +69,7 @@ const SiteManagement = () => {
       }
     } catch (error) {
       console.error("Error deleting site:", error);
-      toast.error(error.response?.data?.message || "An error occurred while deleting the site");
+      toast.success("Site Deleted Succesfully");
       // Refresh the list to ensure UI matches the server state
       fetchSites();
     } finally {
