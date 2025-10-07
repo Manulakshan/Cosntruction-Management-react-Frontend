@@ -1,9 +1,15 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Sidebar from "../../components/Admin/Sidebar";
 import "./Dashboard.css";
 import { FaUsers, FaMapMarkerAlt, FaUserPlus, FaClipboardList } from "react-icons/fa";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+  
+  const handleAddSite = () => {
+    navigate('/admin/sitemanagement');
+  };
   return (
     <div className="admin-container">
       <Sidebar />
@@ -20,7 +26,7 @@ const Dashboard = () => {
                 <p>Administrator</p>
               </div>
             </div>
-            <button className="add-site-btn">+ Add New Site</button>
+            <button className="add-site-btn" onClick={handleAddSite}>+ Add New Site</button>
           </div>
         </header>
 
