@@ -108,7 +108,7 @@ const SiteManagement = () => {
       siteId: site.siteId || site["SITE ID"] || "",
       location: site.location || site.LOCATION || "",
       siteType: (site.siteType || site["SITE TYPE"] || "").toLowerCase(),
-      supervisorId: site.supervisorId || site["SUPERVISOR ID"] || "N/A",
+      supervisorId: site.supervisorId || site["SUPERVISOR ID"] || "",
       startDate: formatDateForInput(site.startDate || site["PROJECT START DATE"] || ""),
       endDate: formatDateForInput(site.endDate || site["PROJECT END DATE"] || ""),
       clientName: site.clientName || site["CLIENT NAME"] || "",
@@ -207,7 +207,7 @@ const SiteManagement = () => {
         "SITE TYPE": formData.siteType.charAt(0).toUpperCase() + 
                     formData.siteType.slice(1).toLowerCase(),
         "LOCATION": formData.location.trim(),
-        "SUPERVISOR ID": formData.supervisorId?.trim() || 'N/A',
+        "SUPERVISOR ID": formData.supervisorId?.trim() || '',
         "PROJECT START DATE": new Date(formData.startDate),
         "PROJECT END DATE": new Date(formData.endDate),
         "CLIENT NAME": formData.clientName.trim(),

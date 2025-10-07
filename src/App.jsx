@@ -25,6 +25,7 @@ import ProfileManagement from './pages/admin/ProfileManagement';
 import SupervisorDashboard from './pages/supervisor/Dashboard';
 import SupervisorHome from './pages/supervisor/Home';
 import MaterialManagement from './pages/supervisor/MaterialManagement';
+import SupervisorProfile from './pages/supervisor/SupervisorProfile';
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -99,6 +100,11 @@ function App() {
             <Route path="materials" element={
               <ProtectedRoute>
                 <MaterialManagement />
+              </ProtectedRoute>
+            } />
+            <Route path="profile" element={
+              <ProtectedRoute>
+                <SupervisorProfile />
               </ProtectedRoute>
             } />
             <Route path="workforce" element={

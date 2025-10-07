@@ -1,19 +1,19 @@
-/* Global Page Styles */
-.profile-page {
+/* Supervisor Profile Page Styles */
+.supervisor-profile-page {
     background-color: #f9f9f9;
     padding: 2rem;
     font-family: 'Inter', sans-serif;
     color: #1a1a1a;
   }
   
-  .profile-title {
+  .supervisor-profile-title {
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 1.5rem;
   }
   
   /* Card Container */
-  .profile-card {
+  .supervisor-profile-card {
     display: flex;
     justify-content: space-between;
     background: #fff;
@@ -36,7 +36,7 @@
   }
   
   /* Left Section */
-  .profile-left {
+  .supervisor-profile-left {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -45,7 +45,7 @@
     padding-right: 2rem;
   }
   
-  .profile-avatar {
+  .supervisor-profile-avatar {
     width: 130px;
     height: 130px;
     background-color: #f1f1f1;
@@ -56,29 +56,29 @@
     margin-bottom: 1.5rem;
   }
   
-  .avatar-icon {
+  .supervisor-avatar-icon {
     font-size: 3rem;
     color: #999;
   }
   
-  .profile-name {
+  .supervisor-profile-name {
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 0.3rem;
   }
   
-  .profile-role {
+  .supervisor-profile-role {
     color: #7a7a7a;
     font-size: 1rem;
     margin-bottom: 1rem;
   }
   
   /* Status Bar */
-  .status-bar {
+  .supervisor-status-bar {
     margin-top: 0.5rem;
   }
   
-  .status-active {
+  .supervisor-status-active {
     background-color: #2ecc71;
     color: #fff;
     padding: 0.5rem 1rem;
@@ -88,17 +88,17 @@
   }
   
   /* Right Section - Personal Details */
-  .profile-details {
+  .supervisor-profile-details {
     width: 50%;
   }
   
-  .details-title {
+  .supervisor-details-title {
     font-weight: 700;
     margin-bottom: 1.5rem;
     font-size: 1.2rem;
   }
   
-  .detail-item {
+  .supervisor-detail-item {
     background: #fafafa;
     padding: 1rem 1.2rem;
     border-radius: 10px;
@@ -106,14 +106,14 @@
     border: 1px solid #f0f0f0;
   }
   
-  .detail-item label {
+  .supervisor-detail-item label {
     display: block;
     font-size: 0.9rem;
     color: #7a7a7a;
     margin-bottom: 0.4rem;
   }
   
-  .detail-item p {
+  .supervisor-detail-item p {
     font-weight: 600;
     color: #d33a2c;
     font-size: 1rem;
@@ -121,13 +121,13 @@
   
   /* Responsive */
   @media (max-width: 900px) {
-    .profile-card {
+    .supervisor-profile-card {
       flex-direction: column;
       align-items: center;
       padding: 1.5rem;
     }
   
-    .profile-left {
+    .supervisor-profile-left {
       width: 100%;
       border-right: none;
       border-bottom: 1px solid #eee;
@@ -135,7 +135,7 @@
       padding-bottom: 1.5rem;
     }
   
-    .profile-details {
+    .supervisor-profile-details {
       width: 100%;
       margin-top: 1.5rem;
     }
